@@ -17,6 +17,107 @@
     
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="trainingen.css">
+
+    <!-- E-E-A-T Structured Data: Entity Graph & Course Catalog -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan",
+                "name": "Barry van der Laan MBA",
+                "alternateName": "B.N. van der Laan MBA",
+                "jobTitle": "Senior AI Trainer & Compliance Specialist",
+                "url": "https://gptbedrijfstraining.nl/#about",
+                "sameAs": [
+                    "https://www.linkedin.com/in/bvdlaan/",
+                    "https://aipersoneelstraining.nl/",
+                    "https://twitter.com/AI_stafftrainer"
+                ],
+                "knowsAbout": [
+                    "Artificial Intelligence",
+                    "EU AI Act Compliance (Artikel 4)",
+                    "Prompt Engineering",
+                    "Large Language Models (Gemini, Claude, Grok)",
+                    "Agentic AI Workflows",
+                    "Financial Governance & Risk Management"
+                ],
+                "worksFor": {
+                    "@type": "EducationalOrganization",
+                    "@id": "https://aipersoneelstraining.nl/#organization",
+                    "name": "AI Personeelstraining",
+                    "url": "https://aipersoneelstraining.nl/"
+                }
+            },
+            {
+                "@type": "EducationalOrganization",
+                "@id": "https://aipersoneelstraining.nl/#organization",
+                "name": "AI Personeelstraining",
+                "url": "https://aipersoneelstraining.nl/",
+                "description": "Toonaangevend instituut voor zakelijke AI-adoptie en personeelstraining."
+            },
+            {
+                "@type": "EducationalOrganization",
+                "@id": "https://gptbedrijfstraining.nl/#organization",
+                "name": "GPT Bedrijfstraining",
+                "url": "https://gptbedrijfstraining.nl/",
+                "founder": {
+                    "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan"
+                },
+                "parentOrganization": {
+                    "@id": "https://aipersoneelstraining.nl/#organization"
+                }
+            },
+            {
+                "@type": "ItemList",
+                "name": "Praktische AI-trainingen voor professionals en teams",
+                "itemListElement": [
+                    {
+                        "@type": "Course",
+                        "position": 1,
+                        "name": "Werken met Google Gemini",
+                        "url": "https://gptbedrijfstraining.nl/trainingen/google-gemini/",
+                        "provider": { "@id": "https://gptbedrijfstraining.nl/#organization" },
+                        "instructor": { "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan" }
+                    },
+                    {
+                        "@type": "Course",
+                        "position": 2,
+                        "name": "Werken met Claude",
+                        "url": "https://gptbedrijfstraining.nl/trainingen/claude/",
+                        "provider": { "@id": "https://gptbedrijfstraining.nl/#organization" },
+                        "instructor": { "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan" }
+                    },
+                    {
+                        "@type": "Course",
+                        "position": 3,
+                        "name": "Werken met Grok",
+                        "url": "https://gptbedrijfstraining.nl/trainingen/grok/",
+                        "provider": { "@id": "https://gptbedrijfstraining.nl/#organization" },
+                        "instructor": { "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan" }
+                    },
+                    {
+                        "@type": "Course",
+                        "position": 4,
+                        "name": "Agentic AI in de praktijk",
+                        "url": "https://gptbedrijfstraining.nl/trainingen/agentic-ai/",
+                        "provider": { "@id": "https://gptbedrijfstraining.nl/#organization" },
+                        "instructor": { "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan" }
+                    },
+                    {
+                        "@type": "Course",
+                        "position": 5,
+                        "name": "AI-geletterdheid & Verantwoord Werken met AI",
+                        "url": "https://gptbedrijfstraining.nl/trainingen/ai-geletterdheid/",
+                        "provider": { "@id": "https://gptbedrijfstraining.nl/#organization" },
+                        "instructor": { "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan" }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
 </head>
 
 <body>
@@ -567,15 +668,17 @@
                 <div class="split-feature-right">
                     <div class="tinted-panel lavender">
                         <div>
+                            <span class="badge badge-dark" style="margin-bottom: 8px;">Gecertificeerd Docent</span>
                             <h3>Over uw trainer</h3>
                             <p style="margin: 12px 0 16px 0; font-size: 15px; color: #2e1d4b; line-height: 1.6;">
-                                <strong>B.N. van der Laan MBA</strong> is specialist in AI-adoptie, prompt engineering en compliance. Met een achtergrond in accountancy, financiële markten en toezicht spreekt hij de taal van zowel de werkvloer als directie en compliance officers.
+                                <strong>Barry van der Laan MBA</strong> (B.N. van der Laan MBA) is oprichter van <a href="https://aipersoneelstraining.nl/" target="_blank" style="color: #2e1d4b; font-weight: 600; text-decoration: underline;">AI Personeelstraining</a> en specialist in zakelijke AI-adoptie, prompt engineering en governance. Met een achtergrond in accountancy, financiële markten en toezicht spreekt hij de taal van zowel de werkvloer als directie en compliance officers.
                             </p>
                             <p style="font-size: 14px; color: #433163; line-height: 1.5;">
-                                Sinds de inwerkingtreding van de EU AI Act helpt hij organisaties om AI niet alleen productief in te zetten, maar ook juridisch en ethisch zuiver te verankeren.
+                                Sinds de inwerkingtreding van artikel 4 van de EU AI Act helpt hij organisaties in heel Nederland om AI niet alleen productief in te zetten, maar ook juridisch en ethisch aantoonbaar te verankeren.
                             </p>
-                            <div style="margin-top: 20px;">
-                                <a href="https://www.linkedin.com/in/bvdlaan/" target="_blank" class="btn btn-dark" style="font-size: 13px;">Bekijk LinkedIn Profiel &rarr;</a>
+                            <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                                <a href="https://www.linkedin.com/in/bvdlaan/" target="_blank" class="btn btn-dark" style="font-size: 13px;">LinkedIn Profiel &rarr;</a>
+                                <a href="https://aipersoneelstraining.nl/" target="_blank" class="btn btn-ghost-link" style="font-size: 13px;">AI Personeelstraining &rarr;</a>
                             </div>
                         </div>
                     </div>

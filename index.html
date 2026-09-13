@@ -47,9 +47,60 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@graph": [{
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan",
+                "name": "Barry van der Laan MBA",
+                "alternateName": "B.N. van der Laan MBA",
+                "jobTitle": "Senior AI Trainer & Compliance Specialist",
+                "description": "Specialist in zakelijke AI-adoptie, prompt engineering en EU AI Act-governance met een achtergrond in accountancy, financiële markten en toezicht.",
+                "url": "https://gptbedrijfstraining.nl/#about",
+                "sameAs": [
+                    "https://www.linkedin.com/in/bvdlaan/",
+                    "https://aipersoneelstraining.nl/",
+                    "https://twitter.com/AI_stafftrainer"
+                ],
+                "knowsAbout": [
+                    "Artificial Intelligence",
+                    "EU AI Act Compliance (Artikel 4)",
+                    "Prompt Engineering",
+                    "Large Language Models (Gemini, Claude, Grok)",
+                    "Agentic AI Workflows",
+                    "Financial Governance & Risk Management"
+                ],
+                "worksFor": {
+                    "@type": "EducationalOrganization",
+                    "@id": "https://aipersoneelstraining.nl/#organization",
+                    "name": "AI Personeelstraining",
+                    "url": "https://aipersoneelstraining.nl/"
+                }
+            },
+            {
+                "@type": "EducationalOrganization",
+                "@id": "https://aipersoneelstraining.nl/#organization",
+                "name": "AI Personeelstraining",
+                "url": "https://aipersoneelstraining.nl/",
+                "description": "Toonaangevend opleidingsinstituut voor zakelijke AI-adoptie en personeelstraining in Nederland."
+            },
+            {
+                "@type": "EducationalOrganization",
+                "@id": "https://gptbedrijfstraining.nl/#organization",
+                "name": "GPT Bedrijfstraining",
+                "url": "https://gptbedrijfstraining.nl/",
+                "logo": "https://gptbedrijfstraining.nl/images/gptbedrijfstraining-voorkant.webp",
+                "description": "Praktijkgerichte in-company AI-opleidingen en EU AI Act-implementatie voor bedrijven in Nederland.",
+                "founder": {
+                    "@id": "https://gptbedrijfstraining.nl/#barry-van-der-laan"
+                },
+                "parentOrganization": {
+                    "@id": "https://aipersoneelstraining.nl/#organization"
+                }
+            },
+            {
                 "@type": "BreadcrumbList",
-                "itemListElement": [{
+                "itemListElement": [
+                    {
                         "@type": "ListItem",
                         "position": 1,
                         "name": "Home",
@@ -58,18 +109,10 @@
                     {
                         "@type": "ListItem",
                         "position": 2,
-                        "name": "Trainingen",
-                        "item": "https://gptbedrijfstraining.nl/#services"
+                        "name": "Workshops & Opleidingen",
+                        "item": "https://gptbedrijfstraining.nl/ai-opleidingen.html"
                     }
                 ]
-            },
-            {
-                "@type": "Organization",
-                "@id": "https://gptbedrijfstraining.nl/#organization",
-                "name": "GPT Bedrijfstraining",
-                "url": "https://gptbedrijfstraining.nl/",
-                "logo": "https://gptbedrijfstraining.nl/images/gptbedrijfstraining-voorkant.webp",
-                "description": "Specialist in AI-implementatie en GPT-trainingen voor het bedrijfsleven."
             }
         ]
     }
