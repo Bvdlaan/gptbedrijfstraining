@@ -1,340 +1,763 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Alle AI Opleidingen & Workshops | GPT Bedrijfstraining</title>
-    <meta name="description" content="Overzicht van al onze 11 AI-trainingen. Van ChatGPT en Mistral tot AI Beleid en Microsoft Copilot.">
+    <title>Praktische AI-trainingen voor professionals en teams | GPT Bedrijfstraining</title>
+    <meta name="description"
+        content="In-company AI-opleidingen met meetbare productiviteitswinst: Gemini, Claude, Grok, Agentic AI en EU AI Act-geletterdheid. Transparante prijzen en maatwerk casussen.">
+    <link rel="canonical" href="https://gptbedrijfstraining.nl/ai-opleidingen.html">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
-
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        .bg-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-        }
-
-        .shape {
-            position: absolute;
-            filter: blur(80px);
-            opacity: 0.4;
-            border-radius: 50%;
-            animation: float 20s infinite alternate;
-        }
-        .shape:nth-child(1) { top: -10%; left: -10%; width: 500px; height: 500px; background: #4f46e5; }
-        .shape:nth-child(2) { bottom: 10%; right: -5%; width: 400px; height: 400px; background: #ec4899; animation-delay: -5s; }
-        .shape:nth-child(3) { top: 40%; left: 40%; width: 300px; height: 300px; background: #06b6d4; animation-delay: -10s; }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        header { padding: 20px 0; }
-        header nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
-        .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; color: white; text-decoration: none; }
-
-        h1 { text-align: center; margin: 40px 0 10px 0; font-size: 2.5rem; }
-        .subtitle { text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 50px; font-size: 1.1rem; }
-
-        /* Grid specific logic */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 60px;
-        }
-
-        .service-card {
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .service-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .service-icon { font-size: 2rem; }
-        
-        .service-header h3 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
-        
-        .service-header h3 a {
-            color: white;
-            text-decoration: none;
-        }
-        
-        /* Make the whole card clickable logic usually requires JS, keeping it simple with anchor on title and button */
-        .service-header h3 a:hover {
-            color: #a5f3fc; 
-            text-decoration: underline;
-        }
-
-        .service-card p {
-            color: rgba(255,255,255,0.8);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1; /* Pushes footer down */
-        }
-
-        .service-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
-        }
-
-        .service-features li {
-            padding-left: 20px;
-            position: relative;
-            margin-bottom: 8px;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-        }
-
-        .service-features li::before {
-            content: "•";
-            color: #a5f3fc;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .card-link {
-            display: inline-block;
-            margin-top: auto;
-            color: #a5f3fc;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .card-link:hover { text-decoration: underline; }
-
-        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(30px, 50px); } }
-    </style>
+    <link rel="stylesheet" href="trainingen.css">
 </head>
+
 <body>
-
-    <div class="bg-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-
+    <!-- Header -->
     <header>
         <div class="container">
-            <nav class="glass">
-                <a href="index.html" class="logo">
+            <nav aria-label="Hoofdmenu">
+                <a class="logo" href="index.html">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 12 C 14 6, 24 6, 24 12 C 24 18, 14 18, 14 24 C 14 30, 24 30, 24 36 C 24 42, 14 42, 14 36" stroke="#000000" stroke-width="4.5" stroke-linecap="round" fill="none" />
+                        </svg>
+                    </div>
                     <span>GPT Bedrijfstraining</span>
                 </a>
-                <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
-                    Onderdeel van AI Personeelstraining
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="ai-opleidingen.html" class="active">AI Opleidingen</a>
+                    <a href="strategy.html">Strategie</a>
+                    <a href="constellation.html">Cases</a>
+                    <a href="#keuzehulp">Keuzehulp</a>
+                    <a href="#prijzen">Tarieven</a>
+                    <a href="#offerte">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="#offerte" class="btn btn-dark">Offerte aanvragen</a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <div class="container">
-        <h1>Onze AI Opleidingen</h1>
-        <p class="subtitle">Een compleet overzicht van onze interactieve en hoog beoordeelde trainingen en workshops, met docenten op Masterniveau en praktijkervaring.</p>
-
-        <section class="services-grid">
+    <!-- Hero Section -->
+    <section class="hero-training">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <span>AI Opleidingen</span>
+            </div>
             
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">⚖️</div>
-                    <h3><a href="https://aipersoneelstraining.nl/workshop-ai-beleid-maken/" target="_blank">Workshop AI Beleid Maken</a></h3>
-                </div>
-                <p>Ontwikkel in één dagdeel een concreet en compliant AI-beleid conform de EU AI Act voor uw organisatie.</p>
-                <ul class="service-features">
-                    <li>Juridische kaders (EU AI Act)</li>
-                    <li>Risico-analyse & Governance</li>
-                    <li>Direct toepasbaar beleidsplan</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/workshop-ai-beleid-maken/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+            <div class="hero-training-meta">
+                <span class="badge badge-dark">In-Company & Maatwerk</span>
+                <span class="badge badge-mint">EU AI Act Compliant</span>
+                <span class="badge badge-outline">Maximaal 12 Deelnemers per Tooltraining</span>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🇪🇺</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-mistral-en-ai/" target="_blank">Training Mistral en AI</a></h3>
-                </div>
-                <p>Het veilige, Europese alternatief voor ChatGPT. Leer hoe u Mistral Le Chat inzet met behoud van datasoevereiniteit.</p>
-                <ul class="service-features">
-                    <li>Privacy-first werken</li>
-                    <li>Veilig documenten analyseren</li>
-                    <li>Open-source voordelen</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-mistral-en-ai/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+            <h1>Praktische AI-trainingen voor professionals en teams</h1>
+            <p class="lead">Van veilig AI-gebruik naar meetbare productiviteitswinst. Geen theoretische colleges, maar hands-on eendaagse praktijksessies direct toegepast op de werkelijke documenten, analyses en processen van uw organisatie.</p>
+
+            <div class="action-group">
+                <a href="#offerte" class="btn btn-dark">Plan een vrijblijvend opleidingsgesprek</a>
+                <a href="#prijzen" class="btn btn-ghost-link">Bekijk in-company tarieven &darr;</a>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🤖</div>
-                    <h3><a href="https://aipersoneelstraining.nl/basistraining-chatgpt/" target="_blank">Basistraining ChatGPT</a></h3>
+            <!-- Quick Specs Strip -->
+            <div class="hero-training-specs">
+                <div class="spec-item">
+                    <div class="spec-label">Vorm</div>
+                    <div class="spec-value">In-company & Live</div>
+                    <div class="spec-sub">Op uw locatie of besloten online</div>
                 </div>
-                <p>De ideale start. Leer effectief communiceren met chatbots en schrijf krachtige prompts voor dagelijks gebruik.</p>
-                <ul class="service-features">
-                    <li>Prompt engineering basics</li>
-                    <li>Tijd besparen in e-mails/teksten</li>
-                    <li>Valkuilen vermijden</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/basistraining-chatgpt/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+                <div class="spec-item">
+                    <div class="spec-label">Voorbereiding</div>
+                    <div class="spec-value">Intake 45 min</div>
+                    <div class="spec-sub">Afgestemd op eigen bedrijfscasussen</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Groepsgrootte</div>
+                    <div class="spec-value">6 tot 12 pers.</div>
+                    <div class="spec-sub">Optimaal voor interactie & coaching</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Levertijd Offerte</div>
+                    <div class="spec-value">Binnen 1 werkdag</div>
+                    <div class="spec-sub">Transparante vaste all-in prijzen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training Cards Section -->
+    <section class="bg-paper" id="trainingen-overzicht">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-outline" style="margin-bottom: 8px;">Aanbod 2026</span>
+                <h2>Vijf gerichte opleidingen voor uw team</h2>
+                <p>Kies een specialistische tooltraining voor directe proceswinst, ontdek agentic workflows, of voldoe organisatiebreed aan de wettelijke AI-geletterdheidsplicht.</p>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">📎</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-werken-met-microsoft-365-copilot-ai/" target="_blank">Microsoft 365 Copilot</a></h3>
+            <div class="grid-3" style="margin-bottom: 24px;">
+                <!-- 1. Gemini -->
+                <div class="course-card">
+                    <div class="course-card-top">
+                        <div class="course-card-tags">
+                            <span class="badge badge-teal">Google Workspace</span>
+                            <span class="badge badge-outline">1 Dag</span>
+                        </div>
+                        <h3><a href="trainingen/google-gemini/index.html">Werken met Google Gemini</a></h3>
+                        <p>Productiever werken met AI binnen uw vertrouwde documenten, spreadsheets, presentaties en onderzoeksworkflows.</p>
+                        <ul class="course-highlights">
+                            <li>Gemini binnen Google Workspace & Drive</li>
+                            <li>Kritisch prompten & broncontrole</li>
+                            <li>Analyseren van complexe spreadsheets & rapporten</li>
+                            <li>Privacy, dataveiligheid & bedrijfsbeleid</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-bottom">
+                        <div class="course-price-wrap">
+                            <div>
+                                <div class="course-price">€649 <span class="course-price-unit">p.p.</span></div>
+                                <div class="course-min-price">Min. groepsprijs €3.950 (8–12 pers.)</div>
+                            </div>
+                        </div>
+                        <a href="trainingen/google-gemini/index.html" class="btn btn-dark" style="width: 100%;">Bekijk training &rarr;</a>
+                    </div>
                 </div>
-                <p>Integreer AI in Word, Excel, PowerPoint en Teams. Maximaliseer de ROI van uw Microsoft licenties.</p>
-                <ul class="service-features">
-                    <li>Data-analyse in Excel</li>
-                    <li>Presentaties genereren</li>
-                    <li>Meeting recaps in Teams</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-werken-met-microsoft-365-copilot-ai/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+
+                <!-- 2. Claude -->
+                <div class="course-card">
+                    <div class="course-card-top">
+                        <div class="course-card-tags">
+                            <span class="badge badge-violet">Artefacts & Analyse</span>
+                            <span class="badge badge-outline">1 Dag</span>
+                        </div>
+                        <h3><a href="trainingen/claude/index.html">Werken met Claude</a></h3>
+                        <p>De benchmark voor kennisintensieve teams: diepgravende analyses, lange dossiers, Claude Projects, MCP en interactieve artefacts.</p>
+                        <ul class="course-highlights">
+                            <li>Lange documenten analyseren zonder hallucinaties</li>
+                            <li>Claude Projects met vaste organisatiecontext</li>
+                            <li>Bouwen van interactieve rapporten & artefacts</li>
+                            <li>Model Context Protocol (MCP) in praktijk</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-bottom">
+                        <div class="course-price-wrap">
+                            <div>
+                                <div class="course-price">€695 <span class="course-price-unit">p.p.</span></div>
+                                <div class="course-min-price">Min. groepsprijs €4.250 (8–12 pers.)</div>
+                            </div>
+                        </div>
+                        <a href="trainingen/claude/index.html" class="btn btn-dark" style="width: 100%;">Bekijk training &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- 3. Grok -->
+                <div class="course-card">
+                    <div class="course-card-top">
+                        <div class="course-card-tags">
+                            <span class="badge badge-peach">xAI & Realtime</span>
+                            <span class="badge badge-outline">1 Dag</span>
+                        </div>
+                        <h3><a href="trainingen/grok/index.html">Werken met Grok</a></h3>
+                        <p>Grok van xAI voor actuele marktinformatie, trendonderzoek, commerciële voorbereiding en scherpe contentcreatie.</p>
+                        <ul class="course-highlights">
+                            <li>Directe toegang tot realtime publieke data & trends</li>
+                            <li>Concurrentie- en marktonderzoek valideren</li>
+                            <li>Commerciële scenario's & content ontwikkelen</li>
+                            <li>Factchecking en betrouwbaarheidsfilters</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-bottom">
+                        <div class="course-price-wrap">
+                            <div>
+                                <div class="course-price">€595 <span class="course-price-unit">p.p.</span></div>
+                                <div class="course-min-price">Min. groepsprijs €3.750 (8–12 pers.)</div>
+                            </div>
+                        </div>
+                        <a href="trainingen/grok/index.html" class="btn btn-dark" style="width: 100%;">Bekijk training &rarr;</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🎓</div>
-                    <h3><a href="https://aipersoneelstraining.nl/opleiding-ai-geletterdheid-voor-professionals/" target="_blank">Opleiding AI-geletterdheid</a></h3>
+            <!-- Row 2: Premium & Scalable Entry -->
+            <div class="grid-2">
+                <!-- 4. Agentic AI (Premium) -->
+                <div class="course-card" style="border: 2px solid var(--color-obsidian);">
+                    <div class="course-card-top">
+                        <div class="course-card-tags">
+                            <span class="badge badge-dark">Premium Propositie</span>
+                            <span class="badge badge-outline">1 Dag</span>
+                            <span class="badge badge-outline">6–10 pers.</span>
+                        </div>
+                        <h3><a href="trainingen/agentic-ai/index.html">Agentic AI in de praktijk</a></h3>
+                        <p>Van losse chatprompts naar autonome, werkende AI-workflows. Leer procesproblemen vertalen naar veilige agents met menselijke escalatie.</p>
+                        <ul class="course-highlights">
+                            <li>Selecteren van geschikte agent-processen</li>
+                            <li>Rollen, instructies, tools, geheugen & beslisregels</li>
+                            <li>Human-in-the-loop governance & veilige logging</li>
+                            <li>Iedere deelnemer vertrekt met een werkend pilot-ontwerp</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-bottom">
+                        <div class="course-price-wrap">
+                            <div>
+                                <div class="course-price">€895 <span class="course-price-unit">p.p.</span></div>
+                                <div class="course-min-price">Min. groepsprijs €5.250 (6–10 pers.)</div>
+                            </div>
+                        </div>
+                        <a href="trainingen/agentic-ai/index.html" class="btn btn-dark" style="width: 100%;">Bekijk premium training &rarr;</a>
+                    </div>
                 </div>
-                <p>Een breed programma om teams 'AI-ready' te maken. Van basisbegrip tot ethisch bewustzijn en toepassing.</p>
-                <ul class="service-features">
-                    <li>Certificeringstraject</li>
-                    <li>Toekomstbestendige skills</li>
-                    <li>Voor alle afdelingen</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/opleiding-ai-geletterdheid-voor-professionals/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+
+                <!-- 5. AI-geletterdheid (Entry Scale) -->
+                <div class="course-card" style="background-color: var(--surface-mist-white);">
+                    <div class="course-card-top">
+                        <div class="course-card-tags">
+                            <span class="badge badge-mint">Wettelijke Verplichting</span>
+                            <span class="badge badge-outline">½ Dag</span>
+                            <span class="badge badge-outline">15–30+ pers.</span>
+                        </div>
+                        <h3><a href="trainingen/ai-geletterdheid/index.html">AI-geletterdheid & Verantwoord Werken</a></h3>
+                        <p>Aantoonbaar voldoen aan artikel 4 van de EU AI Act (verplicht sinds feb 2025; toezicht AP sinds aug 2026). Geef medewerkers kennis en handelingsvermogen.</p>
+                        <ul class="course-highlights">
+                            <li>Begrijpelijke uitleg van LLM-kansen & beperkingen</li>
+                            <li>Privacy, data-lekken, auteursrecht & bias vermijden</li>
+                            <li>Drie varianten: Basis, Management en HR/Legal/Compliance</li>
+                            <li>Inclusief digitale kennischeck en officieel deelnamecertificaat</li>
+                        </ul>
+                    </div>
+                    <div class="course-card-bottom">
+                        <div class="course-price-wrap">
+                            <div>
+                                <div class="course-price">€149 <span class="course-price-unit">p.p.</span></div>
+                                <div class="course-min-price">Min. groepsprijs €2.250 (Schaalstaffel tot €39 p.p.)</div>
+                            </div>
+                        </div>
+                        <a href="trainingen/ai-geletterdheid/index.html" class="btn btn-teal" style="width: 100%;">Bekijk compliance training &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advice at a Glance / Pricing Tables -->
+    <section class="bg-mist" id="prijzen">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-dark" style="margin-bottom: 8px;">Advies in één oogopslag</span>
+                <h2>Transparante in-company tarieven</h2>
+                <p>Geen verborgen meerkosten. U betaalt een heldere prijs per deelnemer met een vaste minimale groepsprijs die voorbereiding en maatwerk borgt. Alle bedragen exclusief btw en externe toollicenties.</p>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">👋</div>
-                    <h3><a href="https://aipersoneelstraining.nl/workshop-kennismaken-met-ai/" target="_blank">Workshop Kennismaken</a></h3>
-                </div>
-                <p>Een laagdrempelige, inspirerende sessie om het team enthousiast te maken over de mogelijkheden van AI.</p>
-                <ul class="service-features">
-                    <li>Demystificatie van AI</li>
-                    <li>Leuke, interactieve demo's</li>
-                    <li>Korte sessie (2-3 uur)</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/workshop-kennismaken-met-ai/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+            <!-- Main Comparison Table -->
+            <div class="table-responsive">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Training</th>
+                            <th>Duur</th>
+                            <th>Adviesprijs p.p.</th>
+                            <th>Minimum Groepsprijs</th>
+                            <th>Ideale Groepsgrootte</th>
+                            <th>Inbegrepen Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Werken met Google Gemini</strong></td>
+                            <td>1 dag</td>
+                            <td class="price-val">€649</td>
+                            <td>€3.950</td>
+                            <td>8–12 deelnemers</td>
+                            <td>Eigen promptbibliotheek + Workspace workflow</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Werken met Claude</strong></td>
+                            <td>1 dag</td>
+                            <td class="price-val">€695</td>
+                            <td>€4.250</td>
+                            <td>8–12 deelnemers</td>
+                            <td>Claude Projects set-up + Artefact templates</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Werken met Grok</strong></td>
+                            <td>1 dag</td>
+                            <td class="price-val">€595</td>
+                            <td>€3.750</td>
+                            <td>8–12 deelnemers</td>
+                            <td>Markt- & trendonderzoek formats</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>Agentic AI in de praktijk</strong> <span class="badge badge-dark">Premium</span></td>
+                            <td>1 dag</td>
+                            <td class="price-val">€895</td>
+                            <td>€5.250</td>
+                            <td>6–10 deelnemers</td>
+                            <td>Pilot-ontwerp voor werkende agent workflow</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI-geletterdheid & Verantwoord Werken</strong></td>
+                            <td>½ dag</td>
+                            <td class="price-val">€149</td>
+                            <td>€2.250</td>
+                            <td>15–30 deelnemers</td>
+                            <td>Digitale toetsing + AI Act Deelnamecertificaat</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🔍</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-kunstmatige-intelligentie-en-seo/" target="_blank">Training AI & SEO</a></h3>
+            <!-- Volume Tier for AI Literacy -->
+            <div style="margin-top: 48px;">
+                <div class="section-header" style="margin-bottom: 20px;">
+                    <h3>Schaalprijzen voor AI-geletterdheid (Organisatiebreed)</h3>
+                    <p>Hét instapproduct om grotere teams en afdelingen in één keer gecertificeerd te trainen volgens artikel 4 EU AI Act.</p>
                 </div>
-                <p>Verbeter uw online zichtbaarheid. Gebruik AI voor zoekwoordonderzoek, contentoptimalisatie en technische SEO.</p>
-                <ul class="service-features">
-                    <li>Content clusters bouwen</li>
-                    <li>Meta-data optimalisatie</li>
-                    <li>Google SGE voorbereiding</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-kunstmatige-intelligentie-en-seo/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+
+                <div class="table-responsive">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Aantal Deelnemers</th>
+                                <th>Prijs per Persoon</th>
+                                <th>Indicatieve Totaalprijs</th>
+                                <th>Opzet & Levering</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10 – 24 personen</td>
+                                <td class="price-val">€149</td>
+                                <td>vanaf €2.250</td>
+                                <td>Interactieve workshop op locatie of live online</td>
+                            </tr>
+                            <tr>
+                                <td>25 – 49 personen</td>
+                                <td class="price-val">€99</td>
+                                <td>vanaf €2.475</td>
+                                <td>Interactieve groepssessie met functie-specifieke casussen</td>
+                            </tr>
+                            <tr>
+                                <td>50 – 99 personen</td>
+                                <td class="price-val">€69</td>
+                                <td>vanaf €3.450</td>
+                                <td>Plenaire sessie + digitale kennistoets en auditrapport</td>
+                            </tr>
+                            <tr>
+                                <td>100 – 250 personen</td>
+                                <td class="price-val">€39</td>
+                                <td>vanaf €3.900</td>
+                                <td>Grootschalige sessie + digitaal toetssysteem & certificaten</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>250+ medewerkers</td>
+                                <td class="price-val">Op aanvraag</td>
+                                <td>Maatwerk offerte</td>
+                                <td>Plenaire sessies + continue e-learning & directierapportage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🛡️</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-de-kracht-van-ai-in-aml/" target="_blank">Training AI & AML</a></h3>
+            <!-- Why This Pricing Works -->
+            <div class="tinted-panel mint" style="margin-top: 40px;">
+                <div>
+                    <h3>Waarom deze prijsstelling klopt</h3>
+                    <p style="margin: 12px 0 16px 0; font-size: 15px; color: #1e3a24; line-height: 1.6;">
+                        De Nederlandse AI-markt kent extreme verschillen: van generieke open inschrijvingen (€750–€1.000 bij Computrain) tot zware academische certificeringstrajecten (€2.699 bij Eduvision). 
+                        Onze in-company formule plaatst uw team bewust in het optimale middensegment: <strong>ruim boven oppervlakkige workshops</strong>, maar <strong>zonder academische overhead</strong>.
+                    </p>
+                    <ul class="course-highlights" style="margin-bottom: 0;">
+                        <li>Inclusief intake van 45 minuten met de teamleider</li>
+                        <li>Afgestemd op uw reële bestanden, templates en compliance-regels</li>
+                        <li>Geen losse theorie, maar direct bruikbare promptsets en werkmethodes</li>
+                    </ul>
                 </div>
-                <p>Specialistische training voor de financiële sector. Versterk AML/KYC processen met slimme patroonherkenning.</p>
-                <ul class="service-features">
-                    <li>Transactiemonitoring</li>
-                    <li>False positives verminderen</li>
-                    <li>Risk assessment met AI</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-de-kracht-van-ai-in-aml/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+                <div style="background: white; padding: 24px; border: 1px solid rgba(0,0,0,0.08);">
+                    <h4 style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.04em; color: #555;">Rekenvoorbeeld bij 12 deelnemers</h4>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 16px;">Vaste all-in opbrengst voor een compleet afdelingsteam:</p>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px;">
+                        <span>Gemini (12 pers.)</span> <strong>€7.788</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px;">
+                        <span>Claude (12 pers.)</span> <strong>€8.340</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px;">
+                        <span>Grok (12 pers.)</span> <strong>€7.140</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px;">
+                        <span>Agentic AI (10 pers.)</span> <strong>€8.950</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px;">
+                        <span>AI-geletterdheid (50 pers.)</span> <strong>€3.450</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ready-to-go Bundles -->
+    <section class="bg-paper" id="bundels">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-outline" style="margin-bottom: 8px;">Direct Resultaat</span>
+                <h2>Populaire combinatiebundels</h2>
+                <p>Versterk het leereffect door algemene compliance-kennis direct te koppelen aan een verdiepende tooltraining of follow-up sessie.</p>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🧭</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-ethische-ai-implementatie/" target="_blank">Ethisch Werken met AI</a></h3>
+            <div class="bundles-grid">
+                <!-- Bundel 1 -->
+                <div class="bundle-card">
+                    <div>
+                        <span class="badge badge-outline" style="margin-bottom: 12px;">Meest Gekozen</span>
+                        <h3>AI-startpakket</h3>
+                        <p>Halve dag AI-geletterdheid (EU AI Act) voor het hele team + één specialistische tooltraining (Gemini, Claude of Grok) voor de kerngebruikers.</p>
+                    </div>
+                    <div>
+                        <div class="bundle-price">€6.500</div>
+                        <div class="caption" style="margin-bottom: 16px;">Vaste prijs voor 12 kerngebruikers</div>
+                        <a href="#offerte" onclick="preselectTraining('AI-startpakket')" class="btn btn-dark" style="width: 100%;">Selecteer startpakket</a>
+                    </div>
                 </div>
-                <p>Begrijp de ethische implicaties van algoritmes. Voorkom bias en waarborg transparantie in uw processen.</p>
-                <ul class="service-features">
-                    <li>Bias detectie</li>
-                    <li>Verantwoorde innovatie</li>
-                    <li>Reputatiemanagement</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-ethische-ai-implementatie/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+
+                <!-- Bundel 2 -->
+                <div class="bundle-card featured">
+                    <div>
+                        <span class="badge badge-dark" style="margin-bottom: 12px;">Maximale Borging</span>
+                        <h3>Productief met AI</h3>
+                        <p>Complete dagtraining (Gemini of Claude) inclusief een online follow-up werksessie van 90 minuten na 3 weken om implementatieknelpunten direct op te lossen.</p>
+                    </div>
+                    <div>
+                        <div class="bundle-price">€5.250</div>
+                        <div class="caption" style="margin-bottom: 16px;">Inclusief intake & 90 min follow-up</div>
+                        <a href="#offerte" onclick="preselectTraining('Productief met AI')" class="btn btn-dark" style="width: 100%;">Selecteer bundel</a>
+                    </div>
+                </div>
+
+                <!-- Bundel 3 -->
+                <div class="bundle-card">
+                    <div>
+                        <span class="badge badge-violet" style="margin-bottom: 12px;">Next Level</span>
+                        <h3>Van AI naar Agents</h3>
+                        <p>Halve dag fundamentele AI-geletterdheid gecombineerd met de eendaagse premium Agentic AI masterclass. Voor organisaties die koploper willen zijn.</p>
+                    </div>
+                    <div>
+                        <div class="bundle-price">€7.250</div>
+                        <div class="caption" style="margin-bottom: 16px;">Tot 10 innovatieprofessionals</div>
+                        <a href="#offerte" onclick="preselectTraining('Van AI naar agents')" class="btn btn-dark" style="width: 100%;">Selecteer bundel</a>
+                    </div>
+                </div>
+
+                <!-- Bundel 4 -->
+                <div class="bundle-card">
+                    <div>
+                        <span class="badge badge-mint" style="margin-bottom: 12px;">Compliance Proof</span>
+                        <h3>Organisatiebrede AI-basis</h3>
+                        <p>Plenaire AI-geletterdheidssessie voor de gehele afdeling, inclusief digitale kennistoetsing, officiële certificaten en een audit-klaar managementrapport.</p>
+                    </div>
+                    <div>
+                        <div class="bundle-price">vanaf €3.900</div>
+                        <div class="caption" style="margin-bottom: 16px;">Vanaf 50 tot 250+ medewerkers</div>
+                        <a href="#offerte" onclick="preselectTraining('Organisatiebrede AI-basis')" class="btn btn-dark" style="width: 100%;">Offerte op maat</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">👔</div>
-                    <h3><a href="https://aipersoneelstraining.nl/ai-training-voor-leidinggevenden/" target="_blank">AI voor Leidinggevenden</a></h3>
+            <div style="margin-top: 24px; padding: 18px 24px; background: var(--surface-mist-white); border: 1px solid var(--color-hairline); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <strong>Optionele Follow-up sessie (90 minuten)</strong>: Borg het gebruik na 3 tot 4 weken met een scherpe terugkomsessie.
                 </div>
-                <p>Strategische sessie voor management en directie. Hoe verandert AI uw businessmodel en workforce?</p>
-                <ul class="service-features">
-                    <li>Strategische impact</li>
-                    <li>Change management</li>
-                    <li>ROI berekenen</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/ai-training-voor-leidinggevenden/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+                <div>
+                    <span class="badge badge-dark">Online: €950</span> &nbsp;
+                    <span class="badge badge-outline">Op locatie: €1.250</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keuzehulp Section -->
+    <section class="bg-mist" id="keuzehulp">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-outline" style="margin-bottom: 8px;">Advieswijzer</span>
+                <h2>Welke training past bij uw team?</h2>
+                <p>Niet elke tool is gelijk. Voorkom verkeerde keuzes door het model te kiezen dat past bij de kerntaak van uw afdeling.</p>
             </div>
 
-            <div class="service-card glass">
-                <div class="service-header">
-                    <div class="service-icon">🎨</div>
-                    <h3><a href="https://aipersoneelstraining.nl/training-gpt-ai-voor-contentcreatie/" target="_blank">AI voor Contentcreatie</a></h3>
+            <div class="grid-3">
+                <div class="feature-card-clean">
+                    <h4>Kenniswerkers & Google-gebruikers</h4>
+                    <p style="margin: 8px 0 16px 0;">U werkt met Google Workspace, zoekt dagelijks naar informatie in grote drives en wilt mails, sheets en rapportages versnellen.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="trainingen/google-gemini/index.html">Werken met Google Gemini</a></p>
                 </div>
-                <p>Genereer blogs, visuals en social media posts. Bewaak uw tone-of-voice terwijl u de productie verhoogt.</p>
-                <ul class="service-features">
-                    <li>Tekst & Beeld (Midjourney)</li>
-                    <li>Marketing workflows</li>
-                    <li>Creatieve brainstorming</li>
-                </ul>
-                <a href="https://aipersoneelstraining.nl/training-gpt-ai-voor-contentcreatie/" target="_blank" class="card-link">Bekijk training &rarr;</a>
+
+                <div class="feature-card-clean">
+                    <h4>Analisten, Juristen & Beleidsmakers</h4>
+                    <p style="margin: 8px 0 16px 0;">U verwerkt omvangrijke dossiers, contracten of datasets en eist strikte bronverwijzingen zonder hallucinaties.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="trainingen/claude/index.html">Werken met Claude</a></p>
+                </div>
+
+                <div class="feature-card-clean">
+                    <h4>Sales, Research & Marketing</h4>
+                    <p style="margin: 8px 0 16px 0;">U heeft actuele marktinformatie nodig, wilt trends direct signaleren en scherpe commerciële analyses maken.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="trainingen/grok/index.html">Werken met Grok (xAI)</a></p>
+                </div>
+
+                <div class="feature-card-clean">
+                    <h4>Product Owners & IT-verbeteraars</h4>
+                    <p style="margin: 8px 0 16px 0;">U wilt verder dan prompts: zelfsturende agentic workflows ontwerpen met duidelijke vangrails en escalatieregels.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="trainingen/agentic-ai/index.html">Agentic AI in de praktijk</a></p>
+                </div>
+
+                <div class="feature-card-clean">
+                    <h4>Brede teams, HR & Directie</h4>
+                    <p style="margin: 8px 0 16px 0;">U wilt veilige werkafspraken borgen en aantoonbaar voldoen aan artikel 4 van de EU AI Act.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="trainingen/ai-geletterdheid/index.html">AI-geletterdheid & Verantwoord Werken</a></p>
+                </div>
+
+                <div class="feature-card-clean">
+                    <h4>Maatwerk voor uw Organisatie</h4>
+                    <p style="margin: 8px 0 16px 0;">Gecombineerd programma afgestemd op uw specifieke softwarestack, processen en privacybeleid.</p>
+                    <p><strong>Aanbevolen:</strong> <a href="#offerte">Vraag een adviesgesprek aan</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Werkwijze & Autoriteit -->
+    <section class="bg-paper">
+        <div class="container">
+            <div class="split-feature-section">
+                <div class="split-feature-left">
+                    <span class="badge badge-dark" style="margin-bottom: 12px;">Onze Werkwijze</span>
+                    <h2>Senior in-company begeleiding met oog voor risico en resultaat</h2>
+                    <p class="lead">Veel AI-trainers demonstreren slechts leuke trucjes. Wij combineren diepgaande technische prompt engineering met jarenlange ervaring in financiële markten, governance en compliance.</p>
+                    
+                    <div class="sub-features-grid">
+                        <div class="sub-feature-item">
+                            <h4>1. Intake (45 min)</h4>
+                            <p>We bespreken vooraf uw processen, tools en vertrouwelijkheidsregels.</p>
+                        </div>
+                        <div class="sub-feature-item">
+                            <h4>2. Maatwerk Casussen</h4>
+                            <p>Deelnemers oefenen direct op reële documenten uit uw eigen werkpraktijk.</p>
+                        </div>
+                        <div class="sub-feature-item">
+                            <h4>3. Directe Toepassing</h4>
+                            <p>Iedere deelnemer verlaat de dag met een direct bruikbare promptset of workflow.</p>
+                        </div>
+                        <div class="sub-feature-item">
+                            <h4>4. Borging & Follow-up</h4>
+                            <p>Optionele evaluatie na 30 dagen om te toetsen wat daadwerkelijk is verankerd.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="split-feature-right">
+                    <div class="tinted-panel lavender">
+                        <div>
+                            <h3>Over uw trainer</h3>
+                            <p style="margin: 12px 0 16px 0; font-size: 15px; color: #2e1d4b; line-height: 1.6;">
+                                <strong>B.N. van der Laan MBA</strong> is specialist in AI-adoptie, prompt engineering en compliance. Met een achtergrond in accountancy, financiële markten en toezicht spreekt hij de taal van zowel de werkvloer als directie en compliance officers.
+                            </p>
+                            <p style="font-size: 14px; color: #433163; line-height: 1.5;">
+                                Sinds de inwerkingtreding van de EU AI Act helpt hij organisaties om AI niet alleen productief in te zetten, maar ook juridisch en ethisch zuiver te verankeren.
+                            </p>
+                            <div style="margin-top: 20px;">
+                                <a href="https://www.linkedin.com/in/bvdlaan/" target="_blank" class="btn btn-dark" style="font-size: 13px;">Bekijk LinkedIn Profiel &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="bg-mist" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-outline" style="margin-bottom: 8px;">Vragen & Antwoorden</span>
+                <h2>Veelgestelde vragen over onze AI-opleidingen</h2>
             </div>
 
-        </section>
-    </div>
+            <div class="faq-wrap">
+                <details class="faq-item">
+                    <summary>Moeten we zelf al beschikken over betaalde AI-licenties?</summary>
+                    <p>Deelnemers hebben tijdens de trainingsdag toegang nodig tot de betreffende tool (bijv. Gemini Advanced / Google Workspace, Claude Pro of Grok). Om flexibel te blijven ten opzichte van frequente prijswijzigingen bij OpenAI, Google, Anthropic en xAI, sluiten organisaties deze licenties zelf af. Tijdens de intake adviseren wij exact welke licentie vereist is.</p>
+                </details>
 
-    <footer class="glass" style="margin-top: auto; border-radius: 0; border-left: 0; border-right: 0; border-bottom: 0;">
-        <div class="container" style="text-align: center; font-size: 0.9rem; color: rgba(255,255,255,0.6);">
-            <p>© 2026 GPT Bedrijfstraining | <a href="https://aipersoneelstraining.nl" style="color: white;">Onderdeel van AI Personeelstraining</a></p>
+                <details class="faq-item">
+                    <summary>Hoe zit het met de privacy en onze vertrouwelijke bedrijfsgegevens?</summary>
+                    <p>Data governance en de EU AI Act vormen een vast onderdeel van al onze trainingen. Wij behandelen exact welke instellingen voorkomen dat uw invoer wordt gebruikt voor modeltraining, hoe zero-retention afspraken werken en welke documenten nooit in publieke modellen mogen worden ingevoerd.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Waarom geldt er een minimum groepsprijs?</summary>
+                    <p>Elke in-company training is maatwerk: wij voeren vooraf een uitgebreide intake van 45 minuten uit en bereiden specifieke casussen voor op basis van uw eigen sector en processen. De minimum groepsprijs dekt deze grondige voorbereiding en borgt de hoge kwaliteit, ongeacht of u met 6 of 12 deelnemers start.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Is de training AI-geletterdheid verplicht door de EU AI Act?</summary>
+                    <p>Ja. Artikel 4 van de Europese AI-verordening verplicht alle werkgevers die AI-systemen inzetten om ervoor te zorgen dat hun personeel over een passend niveau van AI-geletterdheid beschikt. Deze verplichting is ingegaan op 2 februari 2025; de Autoriteit Persoonsgegevens (AP) houdt hier sinds augustus 2026 actief toezicht op. Onze training levert aantoonbaar bewijs middels aanwezigheidsregistratie en certificaten.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Kunnen we de training ook op onze eigen kantoorlocatie organiseren?</summary>
+                    <p>Zeker. Onze in-company trainingen worden standaard op uw kantoorlocatie in heel Nederland verzorgd (of besloten online via Teams/Meet/Zoom als uw team hybride werkt). Wij nemen alle werkvormen en trainingsmaterialen mee.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commercial Lead Capture Form -->
+    <section class="bg-paper" id="offerte">
+        <div class="container">
+            <div class="quote-box">
+                <div class="quote-header">
+                    <span class="badge badge-dark" style="margin-bottom: 8px;">Vrijblijvend Voorstel</span>
+                    <h2>Ontvang binnen één werkdag een voorstel voor uw team</h2>
+                    <p>Vul onderstaand formulier in. U ontvangt een helder, compleet programmavoorstel inclusief beschikbaarheid en vaste all-in prijsstelling.</p>
+                </div>
+
+                <form id="training-quote-form" onsubmit="handleQuoteSubmit(event)">
+                    <div class="form-grid-2">
+                        <div class="form-field">
+                            <label for="contact_name">Uw naam *</label>
+                            <input type="text" id="contact_name" name="name" required placeholder="bijv. Sandra de Vries">
+                        </div>
+                        <div class="form-field">
+                            <label for="organization">Organisatie / Bedrijfsnaam *</label>
+                            <input type="text" id="organization" name="organization" required placeholder="bijv. Bedrijf B.V.">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-field">
+                            <label for="email">Zakelijk e-mailadres *</label>
+                            <input type="email" id="email" name="email" required placeholder="sandra@bedrijf.nl">
+                        </div>
+                        <div class="form-field">
+                            <label for="phone">Telefoonnummer</label>
+                            <input type="tel" id="phone" name="phone" placeholder="06 - 12345678">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-field">
+                            <label for="training_type">Gewenste training *</label>
+                            <select id="training_type" name="training" required>
+                                <option value="" disabled selected>Kies een training...</option>
+                                <option value="Google Gemini">Werken met Google Gemini (1 dag, €649 p.p.)</option>
+                                <option value="Claude">Werken met Claude (1 dag, €695 p.p.)</option>
+                                <option value="Grok">Werken met Grok (1 dag, €595 p.p.)</option>
+                                <option value="Agentic AI">Agentic AI in de praktijk (1 dag, €895 p.p.)</option>
+                                <option value="AI-geletterdheid">AI-geletterdheid & EU AI Act (½ dag, vanaf €149 p.p.)</option>
+                                <option value="AI-startpakket">AI-startpakket (Geletterdheid + Tooltraining — €6.500)</option>
+                                <option value="Productief met AI">Productief met AI (Tooltraining + 90 min follow-up — €5.250)</option>
+                                <option value="Van AI naar agents">Van AI naar agents (Geletterdheid + Agents — €7.250)</option>
+                                <option value="Organisatiebrede AI-basis">Organisatiebrede AI-basis (vanaf €3.900)</option>
+                                <option value="Maatwerk / Advies">Vrijblijvend adviesgesprek / Maatwerk</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="participants">Aantal deelnemers (indicatie) *</label>
+                            <select id="participants" name="participants" required>
+                                <option value="1–5">1 – 5 personen</option>
+                                <option value="6–10" selected>6 – 10 personen (ideaal voor verdieping)</option>
+                                <option value="11–15">11 – 15 personen</option>
+                                <option value="16–30">16 – 30 personen (ideaal voor geletterdheid)</option>
+                                <option value="31–100">31 – 100 personen</option>
+                                <option value="100+">100+ medewerkers (plenair / organisatiebreed)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-field">
+                            <label for="preferred_date">Voorkeursdatum of periode</label>
+                            <input type="text" id="preferred_date" name="preferred_date" placeholder="bijv. Volgende maand / dinsdag of donderdag">
+                        </div>
+                        <div class="form-field">
+                            <label for="current_tools">Werken jullie al met AI-tools?</label>
+                            <input type="text" id="current_tools" name="current_tools" placeholder="bijv. ChatGPT gratis, Gemini, Copilot, of nog niet">
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="processes">Korte omschrijving van de belangrijkste werkprocessen of leerdoelen</label>
+                        <textarea id="processes" name="processes" rows="3" placeholder="bijv. Ons team schrijft offertes, analyseert klantdossiers en wil repetitieve rapportages automatiseren met behoud van databescherming."></textarea>
+                        <div class="form-help">Zo bereiden wij het intakegesprek direct inhoudelijk voor.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark" style="padding: 14px 36px; font-size: 15px;">Aanvraag verzenden &rarr;</button>
+
+                    <div class="badge-guarantee">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Binnen 1 werkdag een concreet voorstel. Uw gegevens worden vertrouwelijk behandeld.</span>
+                    </div>
+
+                    <div id="form-feedback" class="form-status"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 6px; color: var(--color-obsidian);">GPT Bedrijfstraining</div>
+                    <div class="caption">Onderdeel van AI Personeelstraining | KvK geregistreerd</div>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="ai-opleidingen.html">AI Opleidingen</a>
+                    <a href="strategy.html">Strategie</a>
+                    <a href="constellation.html">Cases</a>
+                    <a href="#offerte">Offerte</a>
+                </div>
+                <div class="copyright">
+                    &copy; 2026 GPT Bedrijfstraining. Alle rechten voorbehouden.
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- Simple Script for Preselection & Form Handling -->
+    <script>
+        function preselectTraining(trainingName) {
+            const select = document.getElementById('training_type');
+            if (select) {
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].value === trainingName || select.options[i].text.includes(trainingName)) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function handleQuoteSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.className = 'form-status success';
+            feedback.innerHTML = '<strong>Hartelijk dank voor uw aanvraag!</strong> Wij hebben uw gegevens ontvangen en sturen u binnen één werkdag een concreet opleidingsvoorstel toe.';
+            feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            e.target.reset();
+        }
+    </script>
 </body>
 </html>
