@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Personeelstraining | Duurzaam AI Kompas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(2rem); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-in { animation: slideInRight 0.7s ease-out forwards; }
+        
+        /* Custom Scrollbar for panel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- 1. Constants & Data ---
+
+        const PILLARS = {
+            MENS: { id: 'mens', label: 'Mens', color: '#f97316', bg: 'bg-orange-500', text: 'text-orange-600', light: 'bg-orange-50' },
+            MAATSCHAPPIJ: { id: 'maatschappij', label: 'Maatschappij', color: '#10b981', bg: 'bg-emerald-500', text: 'text-emerald-600', light: 'bg-emerald-50' },
+            TECHNOLOGIE: { id: 'technologie', label: 'Technologie', color: '#8b5cf6', bg: 'bg-violet-500', text: 'text-violet-600', light: 'bg-violet-50' },
+            ORGANISATIE: { id: 'organisatie', label: 'Organisatie', color: '#3b82f6', bg: 'bg-blue-500', text: 'text-blue-600', light: 'bg-blue-50' }
+        };
+
+        // Updated Compass Topics based on new logic (0 to 315 degrees)
+        const COMPASS_TOPICS = [
+            // Noord (0°) - Organisatie
+            { id: '1', title: 'Governance en verantwoordelijkheid', description: 'Duidelijke kaders, rollen en verantwoordelijkheden voor AI-gebruik binnen de organisatie.', pillar: 'ORGANISATIE', angle: 0, impact: 95, icon: 'building' },
+            
+            // Noord-Oost (45°) - Maatschappij
+            { id: '2', title: 'Transparantie en uitlegbaarheid', description: 'Openheid over het gebruik van AI en de logica achter algoritmische beslissingen.', pillar: 'MAATSCHAPPIJ', angle: 45, impact: 85, icon: 'eye' },
+            
+            // Oost (90°) - Maatschappij
+            { id: '3', title: 'Monitoring en continue verbetering', description: 'Het voortdurend meten van prestaties en impact om bij te sturen waar nodig.', pillar: 'MAATSCHAPPIJ', angle: 90, impact: 80, icon: 'activity' },
+            
+            // Zuid-Oost (135°) - Maatschappij
+            { id: '4', title: 'Externe samenwerking en kennisdeling', description: 'Samenwerken met stakeholders, experts en de maatschappij voor verantwoorde innovatie.', pillar: 'MAATSCHAPPIJ', angle: 135, impact: 70, icon: 'globe' },
+            
+            // Zuid (180°) - Technologie
+            { id: '5', title: 'Datakwaliteit en privacy', description: 'Waarborgen van integere, representatieve data en bescherming van persoonsgegevens.', pillar: 'TECHNOLOGIE', angle: 180, impact: 90, icon: 'database' },
+            
+            // Zuid-West (225°) - Technologie
+            { id: '6', title: 'Veiligheid en robuustheid', description: 'Systemen beschermen tegen misbruik, aanvallen en onvoorziene fouten.', pillar: 'TECHNOLOGIE', angle: 225, impact: 85, icon: 'lock' },
+            
+            // West (270°) - Mens
+            { id: '7', title: 'Ethiek en non-discriminatie', description: 'Actief voorkomen van vooroordelen en borgen van menselijke waarden in AI-systemen.', pillar: 'MENS', angle: 270, impact: 95, icon: 'heartHand' },
+            
+            // Noord-West (315°) - Mens/Organisatie (Mapped to MENS for quadrant balance, connects to Org)
+            { id: '8', title: 'Training en bewustwording', description: 'Ontwikkelen van vaardigheden en een kritische houding bij medewerkers.', pillar: 'MENS', angle: 315, impact: 80, icon: 'graduationCap' },
+        ];
+
+        // --- 2. Shared Components ---
+
+        const Icon = ({ name, size = 24, className, style }) => {
+            const icons = {
+                compass: <><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12Z"/></>,
+                info: <><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></>,
+                chevronRight: <path d="m9 18 6-6-6-6"/>,
+                
+                // Pijler icons & specific topics
+                building: <><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></>,
+                eye: <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>,
+                activity: <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>,
+                globe: <><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></>,
+                database: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></>,
+                lock: <><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></>,
+                heartHand: <><path d="M19 14c1.49-1.28 3.6-2.34 4.58-2.74a5.5 5.5 0 0 0-3.58-10.26c-1.64 0-3.09.44-4.5 1.35C14.09 1.44 12.64 1 11 1a5.5 5.5 0 0 0-3.58 10.26C8.4 11.66 10.5 12.72 12 14"/><path d="M12 14v8"/><path d="M16 18h-8"/></>, // Simplified representation
+                graduationCap: <><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></>,
+                
+                scale: <><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></>,
+                check: <path d="M20 6 9 17l-5-5"/>
+            };
+            
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
+                    {icons[name] || icons.info}
+                </svg>
+            );
+        };
+
+        const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        };
+
+        // --- 3. Component: CompassSVG ---
+        
+        const CompassSVG = ({ topics, selectedId, onSelect, isRotating }) => {
+            const size = 520; 
+            const center = size / 2;
+            const radius = 160;
+            const pointRadius = 200;
+            const labelRadius = 250;
+
+            const getCoords = (angle, r) => {
+                const rad = (angle - 90) * (Math.PI / 180);
+                return {
+                    x: center + r * Math.cos(rad),
+                    y: center + r * Math.sin(rad)
+                };
+            };
+
+            const selectedTopic = topics.find(t => t.id === selectedId);
+
+            return (
+                <div className="relative cursor-default select-none group">
+                    <svg 
+                        width={size} 
+                        height={size} 
+                        viewBox={`0 0 ${size} ${size}`} 
+                        className="drop-shadow-[0_40px_80px_rgba(15,23,42,0.35)] overflow-visible"
+                    >
+                        <defs>
+                            <radialGradient id="compassInnerGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                <stop offset="0%" stopColor="#ffffff" />
+                                <stop offset="85%" stopColor="#f8fafc" />
+                                <stop offset="100%" stopColor="#cbd5e1" />
+                            </radialGradient>
+                            
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#fef08a" />
+                                <stop offset="50%" stopColor="#eab308" />
+                                <stop offset="100%" stopColor="#854d0e" />
+                            </linearGradient>
+
+                            <linearGradient id="brassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#d4af37" />
+                                <stop offset="100%" stopColor="#a67c00" />
+                            </linearGradient>
+
+                            <filter id="glowGold">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                            
+                            <filter id="shadowDeep">
+                                <feDropShadow dx="0" dy="6" stdDeviation="8" floodOpacity="0.3" />
+                            </filter>
+                        </defs>
+
+                        {/* Outer Heavy Brass Bezel */}
+                        <circle cx={center} cy={center} r={radius + 55} fill="url(#brassGrad)" stroke="#713f12" strokeWidth="2" />
+                        <circle cx={center} cy={center} r={radius + 48} fill="#f8fafc" stroke="#94a3b8" strokeWidth="1" />
+                        
+                        {/* Main Compass Face */}
+                        <circle cx={center} cy={center} r={radius + 30} fill="url(#compassInnerGrad)" stroke="#1e3a8a" strokeWidth="1.5" filter="url(#shadowDeep)" />
+
+                        {/* Rotating Rose Mechanism */}
+                        <g style={{ 
+                            transform: `rotate(${selectedTopic ? -selectedTopic.angle : 0}deg)`, 
+                            transformOrigin: `${center}px ${center}px`,
+                            transition: 'transform 2s cubic-bezier(0.25, 1, 0.5, 1)'
+                        }}>
+                            {/* Degree Markers */}
+                            {Array.from({ length: 120 }).map((_, i) => (
+                                <line
+                                    key={i}
+                                    x1={center}
+                                    y1={center - radius - 20}
+                                    x2={center}
+                                    y2={center - radius - (i % 15 === 0 ? 38 : (i % 5 === 0 ? 30 : 25))}
+                                    stroke={i % 15 === 0 ? "#854d0e" : "#334155"}
+                                    strokeWidth={i % 15 === 0 ? 3 : 0.8}
+                                    transform={`rotate(${i * 3}, ${center}, ${center})`}
+                                    opacity={i % 5 === 0 ? 1 : 0.4}
+                                />
+                            ))}
+
+                            {/* 8 Golden Needle Points (Wijzers) */}
+                            {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => {
+                                const isMain = angle % 90 === 0;
+                                const needleWidth = isMain ? 24 : 14;
+                                const needleLength = isMain ? radius + 5 : radius - 15;
+                                
+                                return (
+                                    <g key={`needle-${angle}`} transform={`rotate(${angle}, ${center}, ${center})`}>
+                                        {/* Main Needle Body (Golden) */}
+                                        <path
+                                            d={`M ${center} ${center} L ${center - needleWidth} ${center - 60} L ${center} ${center - needleLength} L ${center + needleWidth} ${center - 60} Z`}
+                                            fill="url(#goldGrad)"
+                                            stroke="#713f12"
+                                            strokeWidth="0.5"
+                                        />
+                                        {/* 3D Darker Side */}
+                                        <path
+                                            d={`M ${center} ${center} L ${center} ${center - needleLength} L ${center + needleWidth} ${center - 60} Z`}
+                                            fill="black"
+                                            fillOpacity="0.2"
+                                        />
+                                        
+                                        {/* Strategic North Accent */}
+                                        {angle === 0 && (
+                                            <path
+                                                d={`M ${center} ${center - 100} L ${center - needleWidth} ${center - 110} L ${center} ${center - needleLength} L ${center + needleWidth} ${center - 110} Z`}
+                                                fill="#ef4444"
+                                                stroke="#991b1b"
+                                                strokeWidth="0.5"
+                                            />
+                                        )}
+                                        
+                                        {/* Main Direction Accents (Blue for E, S, W) */}
+                                        {isMain && angle !== 0 && (
+                                            <path
+                                                d={`M ${center} ${center - 110} L ${center - (needleWidth-4)} ${center - 120} L ${center} ${center - needleLength} L ${center + (needleWidth-4)} ${center - 120} Z`}
+                                                fill="#1e40af"
+                                                opacity="0.3"
+                                            />
+                                        )}
+                                    </g>
+                                );
+                            })}
+                        </g>
+
+                        {/* Central Hub Mechanism */}
+                        <g filter="url(#shadowDeep)">
+                            <circle cx={center} cy={center} r={28} fill="url(#brassGrad)" stroke="#713f12" strokeWidth="1.5" />
+                            <circle cx={center} cy={center} r={22} fill="#0f172a" />
+                            <circle cx={center} cy={center} r={8} fill="white" />
+                            <circle cx={center} cy={center} r={4} fill="#eab308" />
+                        </g>
+
+                        {/* Stationary Interaction Nodes & Labels */}
+                        {topics.map((topic) => {
+                            const nodeCoords = getCoords(topic.angle, pointRadius);
+                            const labelCoords = getCoords(topic.angle, labelRadius);
+                            const isSelected = selectedId === topic.id;
+                            
+                            // Determine text alignment based on quadrant to prevent overlapping center
+                            let textAnchor = "middle";
+                            if (topic.angle > 10 && topic.angle < 170) textAnchor = "start";
+                            else if (topic.angle > 190 && topic.angle < 350) textAnchor = "end";
+
+                            // Shorten display titles slightly for visual balance if needed, 
+                            // but user requested full consistency.
+                            const displayTitle = topic.title;
+                            
+                            return (
+                                <g 
+                                    key={topic.id} 
+                                    className="cursor-pointer group/item"
+                                    onClick={() => onSelect(topic)}
+                                >
+                                    {/* Interaction Circle */}
+                                    <circle 
+                                        cx={nodeCoords.x} 
+                                        cy={nodeCoords.y} 
+                                        r={isSelected ? 26 : 18} 
+                                        fill={isSelected ? (topic.angle === 0 ? '#ef4444' : '#1e40af') : 'white'} 
+                                        stroke={isSelected ? '#fde047' : '#1e3a8a'} 
+                                        strokeWidth={isSelected ? 5 : 3}
+                                        className="transition-all duration-500"
+                                        filter={isSelected ? "url(#glowGold)" : "url(#shadowDeep)"}
+                                    />
+
+                                    {/* Icon for Selected Node */}
+                                    {isSelected && (
+                                        <svg 
+                                            x={nodeCoords.x - 10} 
+                                            y={nodeCoords.y - 10} 
+                                            width="20" 
+                                            height="20" 
+                                            viewBox="0 0 24 24" 
+                                            fill="none" 
+                                            stroke="white" 
+                                            strokeWidth="2" 
+                                            strokeLinecap="round" 
+                                            strokeLinejoin="round" 
+                                            className="pointer-events-none"
+                                        >
+                                            {topic.icon === 'building' && <><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></>}
+                                            {topic.icon === 'eye' && <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>}
+                                            {topic.icon === 'activity' && <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>}
+                                            {topic.icon === 'globe' && <><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></>}
+                                            {topic.icon === 'database' && <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></>}
+                                            {topic.icon === 'lock' && <><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></>}
+                                            {topic.icon === 'heartHand' && <><path d="M19 14c1.49-1.28 3.6-2.34 4.58-2.74a5.5 5.5 0 0 0-3.58-10.26c-1.64 0-3.09.44-4.5 1.35C14.09 1.44 12.64 1 11 1a5.5 5.5 0 0 0-3.58 10.26C8.4 11.66 10.5 12.72 12 14"/><path d="M12 14v8"/><path d="M16 18h-8"/></>}
+                                            {topic.icon === 'graduationCap' && <><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></>}
+                                        </svg>
+                                    )}
+
+                                    {/* Labels */}
+                                    <text
+                                        x={labelCoords.x}
+                                        y={labelCoords.y + 6}
+                                        textAnchor={textAnchor}
+                                        className={`text-[11px] font-black uppercase tracking-tight transition-all duration-300 pointer-events-none select-none ${
+                                            isSelected 
+                                                ? 'fill-blue-900 font-bold drop-shadow-md' 
+                                                : 'fill-slate-500 opacity-90 group-hover/item:opacity-100 group-hover/item:fill-blue-600'
+                                        }`}
+                                        style={{ 
+                                            transformOrigin: `${labelCoords.x}px ${labelCoords.y}px`,
+                                            transform: isSelected ? 'scale(1.2)' : 'scale(1)'
+                                        }}
+                                    >
+                                        {displayTitle}
+                                    </text>
+                                </g>
+                            );
+                        })}
+                    </svg>
+                </div>
+            );
+        };
+
+        // --- 4. Component: InfoPanel ---
+
+        const InfoPanel = ({ topic }) => {
+            const getPillarColor = (pillar) => {
+                switch (pillar) {
+                    case 'ORGANISATIE': return 'bg-blue-100 text-blue-700 border-blue-200';
+                    case 'MAATSCHAPPIJ': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+                    case 'TECHNOLOGIE': return 'bg-violet-100 text-violet-700 border-violet-200';
+                    case 'MENS': return 'bg-orange-100 text-orange-700 border-orange-200';
+                    default: return 'bg-slate-100 text-slate-700 border-slate-200';
+                }
+            };
+
+            const getDirLabel = (angle) => {
+                switch (angle) {
+                    case 0: return "Noord";
+                    case 45: return "Noord-Oost";
+                    case 90: return "Oost";
+                    case 135: return "Zuid-Oost";
+                    case 180: return "Zuid";
+                    case 225: return "Zuid-West";
+                    case 270: return "West";
+                    case 315: return "Noord-West";
+                    default: return "";
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-[2.5rem] p-8 shadow-2xl border border-slate-100 animate-slide-in h-full flex flex-col">
+                    <div className="flex items-start justify-between mb-6">
+                        <div className="flex flex-col gap-1">
+                            <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border w-fit ${getPillarColor(topic.pillar)}`}>
+                                {topic.pillar} • {getDirLabel(topic.angle)}
+                            </span>
+                        </div>
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-700 shadow-inner">
+                            <Icon name={topic.icon} size={28} />
+                        </div>
+                    </div>
+                    
+                    <h2 className="text-3xl font-black text-slate-900 mb-4 leading-tight tracking-tight uppercase italic">
+                        {topic.title}
+                    </h2>
+                    
+                    <div className="flex-grow">
+                        <p className="text-slate-600 leading-relaxed mb-8 text-sm md:text-base font-medium">
+                            {topic.description}
+                        </p>
+
+                        <div className="grid grid-cols-1 gap-4">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest mb-2">Impact</h4>
+                                <p className="text-xs text-slate-500 leading-normal">
+                                    Dit element versterkt de {topic.pillar.toLowerCase()} pijler van het kompas en borgt duurzame groei in de AI-era.
+                                </p>
+                            </div>
+                            <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                                <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest mb-2">AI Advies:</h4>
+                                <ul className="space-y-1">
+                                    <li className="text-[11px] text-blue-800 flex gap-2">
+                                        <span className="font-bold">→</span> Analyseer de huidige maturiteit op {getDirLabel(topic.angle)}
+                                    </li>
+                                    <li className="text-[11px] text-blue-800 flex gap-2">
+                                        <span className="font-bold">→</span> Integreer best-practices van het raamwerk
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button className="w-full mt-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-lg active:scale-95 group flex items-center justify-center gap-2">
+                        <span>Meer verdieping</span>
+                        <Icon name="chevronRight" className="group-hover:translate-x-1 transition-transform" size={18} />
+                    </button>
+                </div>
+            );
+        };
+
+        // --- 5. Component: AssessmentModule (Mock) ---
+
+        const AssessmentModule = ({ onComplete }) => {
+            return (
+                <div className="w-full max-w-3xl bg-white rounded-[2rem] p-8 md:p-12 shadow-2xl shadow-slate-200 border border-slate-100 text-center animate-fade-in">
+                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mx-auto mb-6">
+                        <Icon name="scale" size={32} />
+                    </div>
+                    <h2 className="text-3xl font-black text-slate-900 mb-4">Maturity scan</h2>
+                    <p className="text-slate-500 mb-8 max-w-lg mx-auto">
+                        Meet de volwassenheid van uw organisatie op het gebied van ethische AI-implementatie aan de hand van ijkpunten uit het kompas.
+                    </p>
+                    
+                    <div className="space-y-4 text-left max-w-lg mx-auto mb-8">
+                        {/* Aligned with new compass flow (Clockwise from North) */}
+                        {[
+                            "Governance & beleid (Organisatie)",
+                            "Transparantie & uitlegbaarheid (Maatschappij)",
+                            "Datakwaliteit & privacy (Technologie)",
+                            "Ethiek & non-discriminatie (Mens)"
+                        ].map((item, i) => (
+                            <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <div className="text-emerald-500"><Icon name="check" size={16} /></div>
+                                <span className="text-sm font-semibold text-slate-700">{item}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    <button className="px-8 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors">
+                        Start de scan
+                    </button>
+                </div>
+            );
+        }
+
+        // --- 6. Main App Component ---
+
+        const App = () => {
+            const [mode, setMode] = useState('discovery');
+            const [selectedTopic, setSelectedTopic] = useState(null);
+            const [isRotating, setIsRotating] = useState(false);
+
+            const handleTopicSelect = (topic) => {
+                setIsRotating(true);
+                setSelectedTopic(topic);
+                setTimeout(() => setIsRotating(false), 500);
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-50 flex flex-col items-center p-4 md:p-8 overflow-x-hidden">
+                    
+                    {/* Header */}
+                    <header className="w-full max-w-5xl flex flex-col items-center mb-12">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-slate-900 w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-xl italic">AI</div>
+                            <div className="h-6 w-px bg-slate-300 mx-1"></div>
+                            <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Personeelstraining</span>
+                        </div>
+                        
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 text-center tracking-tighter uppercase italic leading-none mb-6">
+                            Duurzaam AI kompas
+                        </h1>
+                        
+                        <div className="flex bg-white p-1.5 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 mt-4">
+                            <button 
+                                onClick={() => setMode('discovery')}
+                                className={`px-6 md:px-8 py-3 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${mode === 'discovery' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-400 hover:text-slate-900'}`}
+                            >
+                                🧭 Duurzaam AI kompas
+                            </button>
+                            <button 
+                                onClick={() => setMode('assessment')}
+                                className={`px-6 md:px-8 py-3 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${mode === 'assessment' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-blue-600'}`}
+                            >
+                                📊 Maturity scan
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="w-full max-w-7xl flex flex-col items-center">
+                        {mode === 'discovery' ? (
+                            <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-32 mt-4 lg:mt-12">
+                                
+                                {/* Compass Container */}
+                                <div className="relative flex items-center justify-center p-4 min-h-[400px]">
+                                    
+                                    {/* Strategic Labels Aligned with Pillar Logic (Modified positions for larger CompassSVG) */}
+                                    <div className="absolute -top-12 md:-top-16 text-center z-10 w-full flex flex-col items-center">
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-1 italic">Strategisch noorden</p>
+                                        <p className="text-xs md:text-sm font-black text-blue-600 uppercase tracking-widest bg-white/90 shadow-sm border border-slate-100 px-4 py-1 rounded-full">Organisatie</p>
+                                    </div>
+                                    <div className="absolute -right-16 md:-right-24 top-1/2 -translate-y-1/2 rotate-90 text-center z-10">
+                                        <p className="text-xs md:text-sm font-black text-emerald-600 uppercase tracking-widest bg-white/90 shadow-sm border border-slate-100 px-4 py-1 rounded-full whitespace-nowrap">Maatschappij</p>
+                                    </div>
+                                    <div className="absolute -bottom-12 md:-bottom-16 text-center z-10">
+                                        <p className="text-xs md:text-sm font-black text-violet-600 uppercase tracking-widest bg-white/90 shadow-sm border border-slate-100 px-4 py-1 rounded-full">Technologie</p>
+                                    </div>
+                                    <div className="absolute -left-16 md:-left-24 top-1/2 -translate-y-1/2 -rotate-90 text-center z-10">
+                                        <p className="text-xs md:text-sm font-black text-orange-600 uppercase tracking-widest bg-white/90 shadow-sm border border-slate-100 px-4 py-1 rounded-full whitespace-nowrap">Mens</p>
+                                    </div>
+                                    
+                                    <CompassSVG 
+                                        topics={COMPASS_TOPICS} 
+                                        selectedId={selectedTopic?.id || null} 
+                                        onSelect={handleTopicSelect}
+                                        isRotating={isRotating}
+                                    />
+                                </div>
+
+                                {/* Info Panel Container */}
+                                <div className="w-full max-w-md lg:w-[420px] min-h-[500px] flex items-center">
+                                    {selectedTopic ? (
+                                        <InfoPanel topic={selectedTopic} />
+                                    ) : (
+                                        <div className="h-full w-full flex flex-col items-center justify-center text-center p-12 bg-white rounded-[2rem] shadow-2xl shadow-slate-200 border border-slate-100">
+                                            <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-4xl mb-6 text-blue-600 animate-pulse">🧭</div>
+                                            <h3 className="text-2xl font-black text-slate-900 mb-4 uppercase italic leading-none">Duurzame koers</h3>
+                                            <p className="text-slate-500 leading-relaxed font-medium text-sm">
+                                                Klik op de windrichtingen van het kompas om de 8 cruciale subelementen van het Duurzaam AI kompas te verkennen.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <AssessmentModule onComplete={() => {}} />
+                        )}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="mt-24 w-full max-w-5xl py-12 border-t border-slate-200 flex flex-col items-center gap-6">
+                        <div className="flex flex-wrap justify-center gap-8 md:gap-12 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                           <a href="#" className="hover:text-blue-600 transition-colors">AI Opleidingen</a>
+                           <a href="#" className="hover:text-blue-600 transition-colors">Implementatie</a>
+                           <a href="#" className="hover:text-blue-600 transition-colors">Over AI Personeelstraining</a>
+                        </div>
+                        <p className="text-slate-300 text-[10px] font-medium tracking-tight text-center">
+                            © {new Date().getFullYear()} AI Personeelstraining. Navigeren naar een verantwoorde toekomst.
+                        </p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

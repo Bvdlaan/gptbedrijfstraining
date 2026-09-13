@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Strategy Board 2026 | GPT Bedrijfstraining</title>
+    
+    <!-- Tailwind CSS (for layout utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Instrument Serif & Newsreader (Serif Display) + Plus Jakarta Sans (Grotesk Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <!-- React & Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Theme Custom Variables -->
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f6f9f9;
+            color: #191b1f;
+        }
+
+        h1, h2, .font-serif-display {
+            font-family: 'Instrument Serif', Georgia, serif;
+        }
+
+        h3, h4, .font-serif-heading {
+            font-family: 'Newsreader', Georgia, serif;
+        }
+
+        /* Letter Style Card Surfaces & Elevation */
+        .card-peach { background-color: #fcede1; border: 1px solid rgba(0,0,0,0.04); }
+        .card-mint { background-color: #eefcef; border: 1px solid rgba(0,0,0,0.04); }
+        .card-lavender { background-color: #e6def0; border: 1px solid rgba(0,0,0,0.04); }
+        .card-paper { background-color: #ffffff; border: 1px solid #e6ebec; }
+
+        .btn-letter-dark {
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 18px;
+            transition: opacity 0.2s ease;
+        }
+        .btn-letter-dark:hover { opacity: 0.85; }
+
+        .badge-letter {
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+        }
+        .badge-teal { background-color: #186f64; color: #ffffff; }
+        .badge-violet { background-color: #536eff; color: #ffffff; }
+        .badge-blue { background-color: #154ea5; color: #ffffff; }
+        .badge-dark { background-color: #191b1f; color: #ffffff; }
+
+        .tab-btn {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 8px 16px;
+            border-radius: 2px;
+            border: 1px solid #e6ebec;
+            background-color: #ffffff;
+            color: #555c66;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background-color: #191b1f;
+            color: #ffffff;
+            border-color: #191b1f;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pb-16">
+
+    <!-- Header Bar -->
+    <header class="bg-white border-b border-[#e6ebec] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center gap-2 text-xs font-semibold text-[#191b1f] hover:opacity-75 transition-opacity">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>Terug naar Website</span>
+                </a>
+                <span class="text-[#e6ebec]">|</span>
+                <span class="text-xs uppercase tracking-wider text-[#9fabad] font-semibold">GPT Bedrijfstraining &bull; AI Strategy &amp; Model Audit 2026</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html#contact" class="btn-letter-dark">In-Company Advies</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- 2026 FRONTIER AI MODELS COMPREHENSIVE DATASET (WITH ARTIFICIAL ANALYSIS BENCHMARKS) ---
+        const aiTools = [
+            // ANTHROPIC (CLAUDE 5 & 4.5 LINEUP)
+            {
+                id: "claude-fable-51",
+                name: "Claude Fable 5.1",
+                vendor: "Anthropic",
+                category: "Demanding Reasoning & Long-Horizon Agents",
+                tag: "Reasoning & Logic",
+                description: "Geavanceerd vlaggenschip met adaptive always-on thinking. Gebouwd voor zeer veeleisende logica, meerstaps agentic workflows en complexe zakelijke evals.",
+                benchmark: "1M Context | 128k Output | Adaptive Thinking",
+                maturity: "Level 4 - Systemisch",
+                roi: "Complex Redeneren & Agents",
+                action: "Mandate",
+                price: "$10 In / $50 Out MTok",
+                priceTier: "High Value",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "🔮",
+                aaIndex: 53,
+                speedTps: "66 t/s",
+                ttft: "5.9s"
+            },
+            {
+                id: "claude-opus-5",
+                name: "Claude Opus 5",
+                vendor: "Anthropic",
+                category: "Complex Agentic Coding & Enterprise",
+                tag: "Reasoning & Logic",
+                description: "De primaire aanbeveling voor zware enterprise werkbelastingen en ingewikkelde software-engineering. Biedt de beste balans voor zware agentic taken.",
+                benchmark: "1M Context | 128k Max Output | High Effort",
+                maturity: "Level 4 - Systemisch",
+                roi: "Enterprise Automation",
+                action: "Mandate",
+                price: "$5 In / $25 Out MTok",
+                priceTier: "High Value",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "🏛️",
+                aaIndex: 51,
+                speedTps: "50 t/s",
+                ttft: "5.4s"
+            },
+            {
+                id: "claude-sonnet-5",
+                name: "Claude Sonnet 5",
+                vendor: "Anthropic",
+                category: "Speed & Intelligence Workhorse",
+                tag: "Multimodaal Vlaggenschip",
+                description: "De optimale combinatie van snelheid, intelligentie en efficiëntie. Het dagelijkse werkpaard voor teams die hoge verwerkingssnelheid vereisen.",
+                benchmark: "1M Context | Fast Latency | Adaptive Effort",
+                maturity: "Level 4 - Systemisch",
+                roi: "Team Productiviteit",
+                action: "Scale",
+                price: "$2 In / $10 Out MTok",
+                priceTier: "Mid Range",
+                cardStyle: "card-mint",
+                badgeColor: "badge-teal",
+                icon: "⚡",
+                aaIndex: 48,
+                speedTps: "95 t/s",
+                ttft: "1.8s"
+            },
+            {
+                id: "claude-haiku-45",
+                name: "Claude Haiku 4.5",
+                vendor: "Anthropic",
+                category: "Fastest Sub-Second Agent Engine",
+                tag: "Agenten & Automatisering",
+                description: "Het snelste model in de Claude line-up met nabij-frontiermodel intelligentie. Ideaal voor high-volume micro-services en klantenservice agenten.",
+                benchmark: "200k Context | 64k Output | Fastest Latency",
+                maturity: "Level 3 - Operationeel",
+                roi: "Kostenefficiëntie",
+                action: "Automate",
+                price: "$1 In / $5 Out MTok",
+                priceTier: "Low Cost",
+                cardStyle: "card-paper",
+                badgeColor: "badge-blue",
+                icon: "🚀",
+                aaIndex: 42,
+                speedTps: "150 t/s",
+                ttft: "0.6s"
+            },
+
+            // OPENAI (GPT-6 ASTRA & GPT-5.6 / REALTIME / OPEN-WEIGHT LINEUP)
+            {
+                id: "gpt-6-astra",
+                name: "GPT-6 Astra",
+                vendor: "OpenAI",
+                category: "Computer Use & Frontier Power",
+                tag: "Reasoning & Logic",
+                description: "Het meest krachtige model van OpenAI. Uitblinkend in computer use, lange agentic workflows, software engineering en cybersecurity.",
+                benchmark: "1M+ Context | Computer Use | End-to-End Agents",
+                maturity: "Level 4 - Systemisch",
+                roi: "Autonomous Workflows",
+                action: "Mandate",
+                price: "$10.00 In / $50.00 Out MTok",
+                priceTier: "High Value",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "🌌",
+                aaIndex: 53,
+                speedTps: "60 t/s",
+                ttft: "4.4s"
+            },
+            {
+                id: "gpt-56-sol",
+                name: "GPT-5.6 Sol",
+                vendor: "OpenAI",
+                category: "Advanced Reasoning & Logic",
+                tag: "Reasoning & Logic",
+                description: "Het krachtigste model in de GPT-5.6 serie. Ideaal voor logische, technische en wetenschappelijke taken, code-generatie en agentic tools zonder Astra-tarieven.",
+                benchmark: "1M+ Context | Advanced Reasoning | Code & Data",
+                maturity: "Level 4 - Systemisch",
+                roi: "Complex Redeneren & Evals",
+                action: "Mandate",
+                price: "$4.00 In / $20.00 Out MTok",
+                priceTier: "High Value",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "👑",
+                aaIndex: 47,
+                speedTps: "57 t/s",
+                ttft: "3.9s"
+            },
+            {
+                id: "gpt-56-terra",
+                name: "GPT-5.6 Terra",
+                vendor: "OpenAI",
+                category: "Balancing Cost & Power",
+                tag: "Multimodaal Vlaggenschip",
+                description: "De ideale balans tussen de krachtige Sol en de voordelige Luna. Uitstekend voor dagelijks zakelijk gebruik en schaalbare bedrijfsautomatisering.",
+                benchmark: "1M+ Context | Balanced Intelligence & Latency",
+                maturity: "Level 4 - Systemisch",
+                roi: "Optimaal Rendement",
+                action: "Scale",
+                price: "$2.00 In / $12.00 Out MTok",
+                priceTier: "Mid Range",
+                cardStyle: "card-mint",
+                badgeColor: "badge-teal",
+                icon: "⚡",
+                aaIndex: 44,
+                speedTps: "92 t/s",
+                ttft: "1.2s"
+            },
+            {
+                id: "gpt-56-luna",
+                name: "GPT-5.6 Luna",
+                vendor: "OpenAI",
+                category: "Affordable Reasoning & Logic",
+                tag: "Agenten & Automatisering",
+                description: "Snelle en ultra-betaalbare reasoning engine voor chatbots, gestructureerde data-extractie en high-volume workflows.",
+                benchmark: "1M+ Context | Nano-tier Efficiëntie",
+                maturity: "Level 3 - Operationeel",
+                roi: "Maximale Besparing",
+                action: "Automate",
+                price: "$0.20 In / $1.20 Out MTok",
+                priceTier: "Low Cost",
+                cardStyle: "card-paper",
+                badgeColor: "badge-blue",
+                icon: "🌙",
+                aaIndex: 38,
+                speedTps: "140 t/s",
+                ttft: "0.5s"
+            },
+            {
+                id: "gpt-56-cyber",
+                name: "GPT-5.6 Cyber",
+                vendor: "OpenAI",
+                category: "Cybersecurity & Threat Defense",
+                tag: "Reasoning & Logic",
+                description: "Gespecialiseerde GPT-5.6 Sol variant getraind voor cybersecurity threat analysis, vulnerability discovery en defensive intelligence (Daybreak program).",
+                benchmark: "400k Context | Specialized Cyber Defense",
+                maturity: "Level 4 - Systemisch",
+                roi: "Cyber Resilience",
+                action: "Pilot",
+                price: "$12.50 In / $75.00 Out MTok",
+                priceTier: "High Value",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "🛡️",
+                aaIndex: 47,
+                speedTps: "55 t/s",
+                ttft: "3.8s"
+            },
+            {
+                id: "gpt-realtime-21",
+                name: "GPT-Realtime 2.1",
+                vendor: "OpenAI",
+                category: "Realtime Conversational Audio",
+                tag: "Multimodaal Vlaggenschip",
+                description: "Lage-latency audio model voor natuurlijke spraakinteracties met ingebouwd redeneervermogen, visie en function calling.",
+                benchmark: "128k Context | Text, Audio & Vision Input",
+                maturity: "Level 3 - Operationeel",
+                roi: "Voice Bots & Support",
+                action: "Scale",
+                price: "Text: $4/$24 | Audio: $32/$64 MTok",
+                priceTier: "Mid Range",
+                cardStyle: "card-mint",
+                badgeColor: "badge-teal",
+                icon: "🎙️",
+                aaIndex: 42,
+                speedTps: "85 t/s",
+                ttft: "0.3s"
+            },
+            {
+                id: "gpt-oss-120b",
+                name: "gpt-oss-120b",
+                vendor: "OpenAI",
+                category: "Open Weight Frontier Model",
+                tag: "EU AI Act & On-Premise",
+                description: "Open-weight MoE model (117B parameters, 5.1B actief) met Apache 2.0 licentie. Draait op een enkele H100 GPU voor private in-house deployment.",
+                benchmark: "131,072 Context | Apache 2.0 | MoE 117B",
+                maturity: "Level 3 - Operationeel",
+                roi: "Data Soevereiniteit",
+                action: "Pilot",
+                price: "Open Source / Provider Dependent",
+                priceTier: "Low Cost",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "🔓",
+                aaIndex: 35,
+                speedTps: "182 t/s",
+                ttft: "0.9s"
+            },
+
+            // GOOGLE DEEPMIND (GEMINI 3 FRONTIER & SPECIALIZED MEDIA LINEUP)
+            {
+                id: "gemini-38-flash",
+                name: "Gemini 3.8 Flash",
+                vendor: "Google",
+                category: "Long-Horizon Software & Agents",
+                tag: "Reasoning & Logic",
+                description: "Lancering sept 2026. Het meest intelligente Flash model van Google, gebouwd voor langdurige software engineering en complexe agentic workflows.",
+                benchmark: "Sept 2026 | SOTA Long-Horizon Agents",
+                maturity: "Level 4 - Systemisch",
+                roi: "Autonomous Coding",
+                action: "Mandate",
+                price: "Gemini API / Vertex AI",
+                priceTier: "Mid Range",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "✨",
+                aaIndex: 41,
+                speedTps: "272 t/s",
+                ttft: "1.2s"
+            },
+            {
+                id: "gemini-31-pro",
+                name: "Gemini 3.1 Pro",
+                vendor: "Google",
+                category: "Multimodal Flagship & Big Data",
+                tag: "Multimodaal Vlaggenschip",
+                description: "Google's vlaggenschip model voor complexe meerstaps logica, geavanceerde softwareontwikkeling en massieve documentanalyse.",
+                benchmark: "Preview | Multi-Step Reasoning & Vision",
+                maturity: "Level 4 - Systemisch",
+                roi: "Enterprise Analytics",
+                action: "Mandate",
+                price: "Gemini API / Enterprise",
+                priceTier: "High Value",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "💎",
+                aaIndex: 49,
+                speedTps: "75 t/s",
+                ttft: "2.4s"
+            },
+
+            // DEEPSEEK
+            {
+                id: "deepseek-r1",
+                name: "DeepSeek-R1",
+                vendor: "DeepSeek",
+                category: "Open-Weights Reasoning",
+                tag: "Reasoning & Logic",
+                description: "Doorbraak in open-source AI. Traint puur op Reinforcement Learning (RL) en evenaart gesloten topmodellen op wiskunde en logica tegen 95% lagere kosten.",
+                benchmark: "AIME 79.8% | MATH 97.3%",
+                maturity: "Level 3 - Operationeel",
+                roi: "95% Kostenbesparing",
+                action: "Pilot",
+                price: "Open Source / $0.55/M tokens",
+                priceTier: "Low Cost",
+                cardStyle: "card-mint",
+                badgeColor: "badge-violet",
+                icon: "🐬",
+                aaIndex: 45,
+                speedTps: "287 t/s",
+                ttft: "0.8s"
+            },
+
+            // MISTRAL AI (EU PRIVACY & COMPLIANCE)
+            {
+                id: "mistral-large-2",
+                name: "Mistral Large 2 & LeChat",
+                vendor: "Mistral AI",
+                category: "EU Privacy & Compliance",
+                tag: "EU AI Act & On-Premise",
+                description: "Soeverein Europees vlaggenschip model. 100% AVG/GDPR en EU AI Act compliant. Data blijft gegarandeerd binnen de EU en wordt nooit gedeeld met VS-cloudservers.",
+                benchmark: "EU AI Act Compliant | 128k Context",
+                maturity: "Level 4 - Systemisch",
+                roi: "Juridische Risicoreductie",
+                action: "Mandate",
+                price: "€15/user / Private Cloud",
+                priceTier: "Low Cost",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "🇪🇺",
+                aaIndex: 40,
+                speedTps: "68 t/s",
+                ttft: "1.1s"
+            },
+
+            // META AI
+            {
+                id: "meta-muse-spark",
+                name: "Muse Spark 1.3",
+                vendor: "Meta",
+                category: "Multimodal Frontier Engine",
+                tag: "Multimodaal Vlaggenschip",
+                description: "Meta's nieuwste multimodale topmodel. Uitstekende prestaties op visie, spraak en complexe redeneertaken met ultra-hoge doorvoersnelheid.",
+                benchmark: "1.05M Context | High Output Throughput",
+                maturity: "Level 4 - Systemisch",
+                roi: "High-Volume Multimodal",
+                action: "Scale",
+                price: "$1.60 / task",
+                priceTier: "Mid Range",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "♾️",
+                aaIndex: 48,
+                speedTps: "206 t/s",
+                ttft: "2.1s"
+            },
+
+            // GROQ (HARDWARE LPU INFERENCE)
+            {
+                id: "groq-r1-lpu",
+                name: "DeepSeek-R1 (Groq LPU)",
+                vendor: "Groq",
+                category: "Ultra-Fast LPU Hardware Engine",
+                tag: "Agenten & Automatisering",
+                description: "DeepSeek-R1 gedraaid op Groq Language Processing Units (LPU's). Biedt extreem lage latency en 287+ tokens/sec voor real-time agenten.",
+                benchmark: "Sub-Second Response | 287 t/s Throughput",
+                maturity: "Level 3 - Operationeel",
+                roi: "Real-time Agentic Execution",
+                action: "Scale",
+                price: "$0.55/M tokens",
+                priceTier: "Low Cost",
+                cardStyle: "card-mint",
+                badgeColor: "badge-teal",
+                icon: "⚡",
+                aaIndex: 45,
+                speedTps: "287 t/s",
+                ttft: "0.8s"
+            },
+
+            // CEREBRAS (WAFER-SCALE ENGINE)
+            {
+                id: "cerebras-r1-wafer",
+                name: "DeepSeek-R1 (Cerebras WSE-3)",
+                vendor: "Cerebras",
+                category: "Wafer-Scale Hardware Accelerator",
+                tag: "Agenten & Automatisering",
+                description: "Werelds snelste AI-inference op de Cerebras CS-3 Wafer-Scale chip. Behaalt een duizelingwekkende 450 tokens/sec met vrijwel 0 latency.",
+                benchmark: "450 t/s | Near 0s First-Chunk Latency",
+                maturity: "Level 4 - Systemisch",
+                roi: "Ultra-High Speed Workflows",
+                action: "Mandate",
+                price: "$0.50/M tokens",
+                priceTier: "Low Cost",
+                cardStyle: "card-paper",
+                badgeColor: "badge-dark",
+                icon: "🏎️",
+                aaIndex: 45,
+                speedTps: "450 t/s",
+                ttft: "0.3s"
+            },
+
+            // AMAZON BEDROCK
+            {
+                id: "amazon-bedrock-opus",
+                name: "Claude Opus 5 (AWS Bedrock)",
+                vendor: "Amazon Bedrock",
+                category: "Enterprise Cloud Infrastructure",
+                tag: "Reasoning & Logic",
+                description: "Gehoste Claude Opus 5 op Amazon Bedrock met gegarandeerde SLA's, SOC2 compliance en naadloze AWS IAM integratie.",
+                benchmark: "AWS Native | Private VPC Endpoints",
+                maturity: "Level 4 - Systemisch",
+                roi: "Enterprise Cloud Security",
+                action: "Mandate",
+                price: "Pay-as-you-go AWS",
+                priceTier: "High Value",
+                cardStyle: "card-peach",
+                badgeColor: "badge-dark",
+                icon: "☁️",
+                aaIndex: 51,
+                speedTps: "53 t/s",
+                ttft: "4.9s"
+            },
+
+            // MICROSOFT AZURE
+            {
+                id: "azure-gpt56-sol",
+                name: "GPT-5.6 Sol (Microsoft Azure)",
+                vendor: "Microsoft Azure",
+                category: "Sovereign Cloud & Enterprise AI",
+                tag: "Reasoning & Logic",
+                description: "Azure OpenAI Service deployment van GPT-5.6 Sol. Biedt AVG/GDPR compliance, HIPAA-certificering en private cloud isolatie.",
+                benchmark: "Azure Private Link | ISO 27001",
+                maturity: "Level 4 - Systemisch",
+                roi: "Compliance & Security",
+                action: "Mandate",
+                price: "Azure Enterprise Commitment",
+                priceTier: "High Value",
+                cardStyle: "card-lavender",
+                badgeColor: "badge-violet",
+                icon: "🔷",
+                aaIndex: 44,
+                speedTps: "84 t/s",
+                ttft: "2.9s"
+            },
+
+            // ALIBABA CLOUD
+            {
+                id: "alibaba-qwen-38-max",
+                name: "Qwen 3.8 Max",
+                vendor: "Alibaba Cloud",
+                category: "MoE Frontier Model",
+                tag: "Multimodaal Vlaggenschip",
+                description: "Alibaba's vlaggenschip Mixture-of-Experts model. Uitstekende prestaties op meertalige verwerking, wiskunde en Aziatische marktinformatie.",
+                benchmark: "SOTA MoE Architecture | Multilingual",
+                maturity: "Level 3 - Operationeel",
+                roi: "Globale & Aziatische Markt",
+                action: "Pilot",
+                price: "$2.67 / task",
+                priceTier: "Mid Range",
+                cardStyle: "card-mint",
+                badgeColor: "badge-teal",
+                icon: "🌐",
+                aaIndex: 40,
+                speedTps: "39 t/s",
+                ttft: "2.7s"
+            }
+        ];
+
+        // --- ARTIFICIAL ANALYSIS API PROVIDERS LEADERBOARD DATASET ---
+        const providerLeaderboard = [
+            { provider: "Anthropic", model: "Claude Fable 5.1 (max)", aaIndex: 53, costTask: "$7.63", speedTps: "66 t/s", ttft: "5.9s", type: "Frontier Reasoning" },
+            { provider: "OpenAI", model: "GPT-6 Astra (max)", aaIndex: 53, costTask: "$3.26", speedTps: "60 t/s", ttft: "4.4s", type: "Computer Use & Agents" },
+            { provider: "Amazon Bedrock", model: "Claude Opus 5 (max)", aaIndex: 51, costTask: "$5.86", speedTps: "53 t/s", ttft: "4.9s", type: "Enterprise Agent" },
+            { provider: "Anthropic", model: "Claude Opus 5 (xhigh)", aaIndex: 50, costTask: "$4.88", speedTps: "49 t/s", ttft: "2.5s", type: "Complex Coding" },
+            { provider: "Meta", model: "Muse Spark 1.3 (max)", aaIndex: 48, costTask: "$1.60", speedTps: "206 t/s", ttft: "2.1s", type: "Multimodal Frontier" },
+            { provider: "OpenAI", model: "GPT-5.6 Sol (max)", aaIndex: 47, costTask: "$1.99", speedTps: "57 t/s", ttft: "3.9s", type: "Advanced Reasoning" },
+            { provider: "Microsoft Azure", model: "GPT-5.6 Sol (xhigh)", aaIndex: 44, costTask: "$1.26", speedTps: "84 t/s", ttft: "2.9s", type: "Cloud Enterprise" },
+            { provider: "Google AI Studio", model: "Gemini 3.8 Flash (high)", aaIndex: 41, costTask: "$1.24", speedTps: "272 t/s", ttft: "1.2s", type: "High-Speed Agent" },
+            { provider: "Groq", model: "DeepSeek-R1 (LPU)", aaIndex: 45, costTask: "$0.55", speedTps: "287 t/s", ttft: "0.8s", type: "Ultra-Fast LPU" },
+            { provider: "Cerebras", model: "DeepSeek-R1 (Wafer)", aaIndex: 45, costTask: "$0.50", speedTps: "450 t/s", ttft: "0.3s", type: "Wafer-Scale Engine" },
+            { provider: "Alibaba Cloud", model: "Qwen3.8 Max", aaIndex: 40, costTask: "$2.67", speedTps: "39 t/s", ttft: "2.7s", type: "MoE Frontier" },
+            { provider: "Nebius AI", model: "gpt-oss-120b (high)", aaIndex: 35, costTask: "$0.04", speedTps: "182 t/s", ttft: "0.9s", type: "Open Weight Sovereign" }
+        ];
+
+        // --- MAIN STRATEGY BOARD COMPONENT ---
+        const StrategyBoard = () => {
+            const [search, setSearch] = React.useState("");
+            const [selectedTag, setSelectedTag] = React.useState("Alle Modellen");
+            const [filterVendor, setFilterVendor] = React.useState("All");
+            const [filterAction, setFilterAction] = React.useState("All");
+            const [activeTab, setActiveTab] = React.useState("models"); // 'models' or 'benchmarks'
+
+            const tags = [
+                "Alle Modellen",
+                "Reasoning & Logic",
+                "Multimodaal Vlaggenschip",
+                "EU AI Act & On-Premise",
+                "Agenten & Automatisering"
+            ];
+
+            const vendors = ["All", ...new Set(aiTools.map(t => t.vendor))];
+            const actions = ["All", ...new Set(aiTools.map(t => t.action))];
+
+            const filteredTools = aiTools.filter(tool => {
+                const matchesSearch = tool.name.toLowerCase().includes(search.toLowerCase()) || 
+                                      tool.description.toLowerCase().includes(search.toLowerCase()) ||
+                                      tool.vendor.toLowerCase().includes(search.toLowerCase()) ||
+                                      tool.benchmark.toLowerCase().includes(search.toLowerCase());
+                
+                const matchesTag = selectedTag === "Alle Modellen" || tool.tag === selectedTag;
+                const matchesVendor = filterVendor === "All" || tool.vendor === filterVendor;
+                const matchesAction = filterAction === "All" || tool.action === filterAction;
+
+                return matchesSearch && matchesTag && matchesVendor && matchesAction;
+            });
+
+            return (
+                <main class="max-w-7xl mx-auto px-6 pt-12">
+                    {/* Hero Header */}
+                    <div class="mb-8">
+                        <div class="inline-flex items-center gap-2 bg-black text-white px-3 py-1 text-xs font-semibold uppercase tracking-widest mb-4 rounded-[2px]">
+                            <span>Artificial Analysis Verified Benchmarks 2026</span>
+                        </div>
+                        <h1 class="text-5xl md:text-6xl text-[#000000] mb-4">
+                            Strategic AI Model &amp; Inference Audit
+                        </h1>
+                        <p class="text-lg text-[#555c66] max-w-3xl font-light leading-relaxed">
+                            Geanalyseerde prestaties en benchmarks van meer dan 500 AI-model endpoints (Artificial Analysis Index, verwerkingssnelheid in tokens/sec, latency en kosten per taak) voor onderbouwde enterprise AI-keuzes.
+                        </p>
+                    </div>
+
+                    {/* Primary Tab Switcher */}
+                    <div class="flex items-center gap-3 mb-8 border-b border-[#e6ebec] pb-4">
+                        <button 
+                            onClick={() => setActiveTab("models")}
+                            class={`px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all rounded-[2px] ${activeTab === 'models' ? 'bg-[#191b1f] text-white' : 'bg-white text-[#555c66] border border-[#e6ebec] hover:bg-[#f6f9f9]'}`}
+                        >
+                            Frontier Modellen Overzicht
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab("benchmarks")}
+                            class={`px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all rounded-[2px] flex items-center gap-2 ${activeTab === 'benchmarks' ? 'bg-[#191b1f] text-white' : 'bg-white text-[#555c66] border border-[#e6ebec] hover:bg-[#f6f9f9]'}`}
+                        >
+                            <span>Artificial Analysis Providers Leaderboard</span>
+                            <span class="bg-[#186f64] text-white text-[10px] px-1.5 py-0.5 rounded font-mono">LIVE DATA</span>
+                        </button>
+                    </div>
+
+                    {activeTab === "models" && (
+                        <div>
+                            {/* Category Filter Tabs */}
+                            <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8">
+                                {tags.map(t => (
+                                    <button 
+                                        key={t}
+                                        onClick={() => setSelectedTag(t)}
+                                        class={`tab-btn whitespace-nowrap ${selectedTag === t ? 'active' : ''}`}
+                                    >
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Filter & Search Bar */}
+                            <div class="bg-white border border-[#e6ebec] p-6 mb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#9fabad] mb-2">Zoek Model / Benchmark</label>
+                                    <input 
+                                        type="text"
+                                        placeholder="Bijv. Fable 5.1, Astra, Sol, Gemini 3.8..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        class="w-full bg-[#f6f9f9] border border-[#e6ebec] px-3 py-2 text-sm text-[#191b1f] focus:outline-none focus:border-[#191b1f]"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#9fabad] mb-2">Vendor / Provider</label>
+                                    <select 
+                                        value={filterVendor} 
+                                        onChange={(e) => setFilterVendor(e.target.value)}
+                                        class="w-full bg-[#f6f9f9] border border-[#e6ebec] px-3 py-2 text-sm text-[#191b1f] focus:outline-none focus:border-[#191b1f]"
+                                    >
+                                        {vendors.map(v => <option key={v} value={v}>{v}</option>)}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-[#9fabad] mb-2">Advies Actie</label>
+                                    <select 
+                                        value={filterAction} 
+                                        onChange={(e) => setFilterAction(e.target.value)}
+                                        class="w-full bg-[#f6f9f9] border border-[#e6ebec] px-3 py-2 text-sm text-[#191b1f] focus:outline-none focus:border-[#191b1f]"
+                                    >
+                                        {actions.map(a => <option key={a} value={a}>{a}</option>)}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <button 
+                                        onClick={() => { setSearch(""); setSelectedTag("Alle Modellen"); setFilterVendor("All"); setFilterAction("All"); }}
+                                        class="w-full bg-[#f6f9f9] hover:bg-[#e6ebec] border border-[#e6ebec] text-xs font-semibold uppercase tracking-wider text-[#191b1f] py-2.5 transition-colors"
+                                    >
+                                        Reset Filters
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Results Counter */}
+                            <div class="flex justify-between items-center mb-6 border-b border-[#e6ebec] pb-3">
+                                <span class="text-xs uppercase tracking-wider font-semibold text-[#9fabad]">
+                                    Getoonde Modellen: <strong class="text-[#191b1f]">{filteredTools.length}</strong> van {aiTools.length}
+                                </span>
+                                <span class="text-xs text-[#9fabad] hidden sm:inline">
+                                    Bron: Artificial Analysis Leaderboard &bull; EU AI Act Verified
+                                </span>
+                            </div>
+
+                            {/* Grid of AI Models */}
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                                {filteredTools.map(tool => (
+                                    <div key={tool.id} class={`${tool.cardStyle} p-7 flex flex-col justify-between h-full relative`}>
+                                        <div>
+                                            <div class="flex justify-between items-start mb-4">
+                                                <span class="text-2xl">{tool.icon}</span>
+                                                <div class="flex items-center gap-2">
+                                                    {tool.aaIndex && (
+                                                        <span class="bg-black text-white text-[11px] font-mono px-2 py-0.5 font-bold rounded-[2px]" title="Artificial Analysis Intelligence Index Score">
+                                                            AA Index: {tool.aaIndex}
+                                                        </span>
+                                                    )}
+                                                    <span class={`badge-letter ${tool.badgeColor}`}>{tool.action}</span>
+                                                </div>
+                                            </div>
+
+                                            <span class="text-xs uppercase tracking-widest text-[#9fabad] font-semibold block mb-1">
+                                                {tool.vendor} &bull; {tool.category}
+                                            </span>
+
+                                            <h3 class="text-2xl text-[#000000] font-serif-heading mb-2">
+                                                {tool.name}
+                                            </h3>
+
+                                            <div class="flex flex-wrap items-center gap-2 mb-4">
+                                                <span class="inline-block text-[11px] font-mono bg-black/5 text-[#191b1f] px-2 py-0.5 rounded">
+                                                    {tool.benchmark}
+                                                </span>
+                                                {tool.speedTps && (
+                                                    <span class="inline-block text-[11px] font-mono bg-[#186f64]/10 text-[#186f64] font-semibold px-2 py-0.5 rounded">
+                                                        ⚡ {tool.speedTps}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <p class="text-sm text-[#191b1f] leading-relaxed mb-6 font-normal">
+                                                {tool.description}
+                                            </p>
+                                        </div>
+
+                                        <div class="pt-4 border-t border-black/10">
+                                            <div class="flex justify-between items-center text-xs mb-2">
+                                                <span class="text-[#9fabad] uppercase font-semibold">Status</span>
+                                                <span class="font-medium text-[#191b1f]">{tool.maturity}</span>
+                                            </div>
+                                            <div class="flex justify-between items-center text-xs mb-2">
+                                                <span class="text-[#9fabad] uppercase font-semibold">ROI Focus</span>
+                                                <span class="font-semibold text-[#186f64]">{tool.roi}</span>
+                                            </div>
+                                            <div class="flex justify-between items-center text-xs mt-3 pt-2 border-t border-black/5">
+                                                <span class="text-[#9fabad] uppercase font-semibold">Indicatie Kosten</span>
+                                                <span class="font-mono text-xs font-semibold text-[#191b1f]">{tool.price}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "benchmarks" && (
+                        <div class="mb-16">
+                            <div class="bg-white border border-[#e6ebec] p-6 mb-8">
+                                <h2 class="text-3xl font-serif-heading mb-2 text-[#000000]">
+                                    Artificial Analysis API Providers Leaderboard
+                                </h2>
+                                <p class="text-sm text-[#555c66] mb-6 max-w-3xl">
+                                    Onafhankelijk gemeten prestaties van top AI-modellen over verschillende cloud-infrastructuur providers (Amazon Bedrock, Azure, Google AI Studio, Groq, Cerebras, Nebius).
+                                </p>
+
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse text-sm">
+                                        <thead>
+                                            <tr class="border-b border-[#e6ebec] bg-[#f6f9f9] text-[11px] font-semibold uppercase tracking-wider text-[#9fabad]">
+                                                <th class="py-3 px-4">Provider Endpoint</th>
+                                                <th class="py-3 px-4">Model Name</th>
+                                                <th class="py-3 px-4 text-center">AA Intelligence Index</th>
+                                                <th class="py-3 px-4 text-center">Output Speed (Tokens/s)</th>
+                                                <th class="py-3 px-4 text-center">Latency / TTFT</th>
+                                                <th class="py-3 px-4 text-right">Cost / Task (USD)</th>
+                                                <th class="py-3 px-4 text-right">Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-[#e6ebec]">
+                                            {providerLeaderboard.map((item, i) => (
+                                                <tr key={i} class="hover:bg-[#f6f9f9] transition-colors">
+                                                    <td class="py-3.5 px-4 font-semibold text-[#191b1f]">{item.provider}</td>
+                                                    <td class="py-3.5 px-4 font-serif-heading text-base text-[#000000]">{item.model}</td>
+                                                    <td class="py-3.5 px-4 text-center">
+                                                        <span class="inline-block font-mono text-xs font-bold bg-black text-white px-2.5 py-0.5 rounded-[2px]">
+                                                            {item.aaIndex}
+                                                        </span>
+                                                    </td>
+                                                    <td class="py-3.5 px-4 text-center font-mono font-semibold text-[#186f64]">
+                                                        ⚡ {item.speedTps}
+                                                    </td>
+                                                    <td class="py-3.5 px-4 text-center font-mono text-xs text-[#555c66]">
+                                                        {item.ttft}
+                                                    </td>
+                                                    <td class="py-3.5 px-4 text-right font-mono text-xs font-semibold text-[#191b1f]">
+                                                        {item.costTask}
+                                                    </td>
+                                                    <td class="py-3.5 px-4 text-right">
+                                                        <span class="text-[10px] uppercase font-semibold tracking-wider text-[#9fabad] bg-black/5 px-2 py-0.5 rounded-[2px]">
+                                                            {item.type}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </main>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<StrategyBoard />);
+    </script>
+</body>
+
+</html>

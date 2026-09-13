@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Constellation Map 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #020617; /* Slate 950 */
+        color: white;
+        margin: 0;
+        overflow: hidden;
+      }
+      .glass-panel {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      /* Animation for the nodes */
+      .node-glow {
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.15; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(1.1); }
+      }
+      /* Hide scrollbar for header */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // --- CONSTANTS & DATA ---
+      const ClusterGroup = {
+        ROOT: 'ROOT',
+        OPENAI: 'OPENAI',
+        GOOGLE: 'GOOGLE',
+        ANTHROPIC: 'ANTHROPIC',
+        MISTRAL: 'MISTRAL',
+        XAI: 'XAI',
+        PERPLEXITY: 'PERPLEXITY'
+      };
+
+      const COLOR_PALETTE = {
+        [ClusterGroup.ROOT]: '#a855f7',     // Purple
+        [ClusterGroup.OPENAI]: '#10b981',   // Emerald
+        [ClusterGroup.GOOGLE]: '#3b82f6',   // Blue
+        [ClusterGroup.ANTHROPIC]: '#f97316', // Orange
+        [ClusterGroup.MISTRAL]: '#94a3b8',  // Slate (Gray)
+        [ClusterGroup.XAI]: '#f8fafc',      // White/Silver (Grok)
+        [ClusterGroup.PERPLEXITY]: '#06b6d4' // Cyan (Perplexity)
+      };
+
+      // URLs for the models
+      const MODEL_URLS = {
+        [ClusterGroup.OPENAI]: 'https://chatgpt.com',
+        [ClusterGroup.GOOGLE]: 'https://gemini.google.com',
+        [ClusterGroup.ANTHROPIC]: 'https://claude.ai',
+        [ClusterGroup.MISTRAL]: 'https://chat.mistral.ai',
+        [ClusterGroup.XAI]: 'https://grok.com',
+        [ClusterGroup.PERPLEXITY]: 'https://perplexity.ai'
+      };
+
+      const INITIAL_GRAPH_DATA = {
+        nodes: [
+          // Level 0: Root
+          { id: "Dominant AI Models 2026", group: ClusterGroup.ROOT, level: 0, radius: 45, description: "The central hub of the 2026 AI landscape." },
+
+          // --- Level 1: Main Clusters (Brands) ---
+          { id: "ChatGPT (OpenAI)", group: ClusterGroup.OPENAI, level: 1, radius: 28, description: "Market leader in versatile generative AI." },
+          { id: "Gemini (Google)", group: ClusterGroup.GOOGLE, level: 1, radius: 28, description: "The context champion & science leader." },
+          { id: "Claude (Anthropic)", group: ClusterGroup.ANTHROPIC, level: 1, radius: 28, description: "Engineering, safety & autonomous agents." },
+          { id: "Mistral AI", group: ClusterGroup.MISTRAL, level: 1, radius: 28, description: "European privacy & open-weight champion." },
+          { id: "Grok (xAI)", group: ClusterGroup.XAI, level: 1, radius: 28, description: "Real-time X integration & emotional intelligence." },
+          { id: "Perplexity", group: ClusterGroup.PERPLEXITY, level: 1, radius: 28, description: "The answer engine & deep research tool." },
+          
+          // --- Level 2: OpenAI Children ---
+          { id: "GPT-5.1 Instant", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "8 Personality profiles & human-like interaction." },
+          { id: "GPT-5.1 Thinking", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "Adaptive reasoning for strategy (87.7% AIME)." },
+          { id: "GPT-5.1 Codex-Max", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "Specialized coding model (77.9% SWE-Bench)." },
+          { id: "GPT-5.1 Pro", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "High-accuracy enterprise model." },
+
+          // --- Level 2: Google Children ---
+          { id: "Gemini 3 Pro", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "2M token context, #1 in science benchmarks." },
+          { id: "Gemini 3 Deep Think", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "PhD-level reasoning (41% Humanity's Exam)." },
+          { id: "Veo 3", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "Hyper-realistic generative video engine." },
+          { id: "Nano Banana Pro", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "Studio-quality image generation." },
+
+          // --- Level 2: Anthropic Children ---
+          { id: "Claude Opus 4.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "#1 Coding (80.9% SWE-Bench), self-improving agents." },
+          { id: "Claude Sonnet 4.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "30-hour autonomous agent workflows." },
+          { id: "Constitutional AI", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "Safety-first alignment for enterprise." },
+          { id: "Claude Haiku 3.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "High-speed, cost-efficient processing." },
+
+          // --- Level 2: Mistral Children ---
+          { id: "Mistral Large 3", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Enterprise-grade, multilingual & on-premise." },
+          { id: "Pixtral Large", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Multimodal (docs/images) with 128k context." },
+          { id: "Codestral", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Local code completion & fill-in-the-middle." },
+          { id: "GDPR & Sovereignty", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Data stays within EU borders/local servers." },
+
+          // --- Level 2: Grok (xAI) Children ---
+          { id: "Grok 4.1 Thinking", group: ClusterGroup.XAI, level: 2, radius: 14, description: "High EQ & reduced hallucinations." },
+          { id: "Grok 4.1 Fast", group: ClusterGroup.XAI, level: 2, radius: 14, description: "Ultra-fast, witty personality." },
+          { id: "Real-time Nexus", group: ClusterGroup.XAI, level: 2, radius: 14, description: "Instant access to X (Twitter) live data." },
+          
+          // --- Level 2: Perplexity Children ---
+          { id: "Deep Research", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "Agentic web browsing for complex reports." },
+          { id: "Pro Search", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "Multi-step reasoning for perfect answers." },
+          { id: "Citation Engine", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "100% sourced answers with academic trust." },
+        ],
+        links: [
+          // Root connections
+          { source: "Dominant AI Models 2026", target: "ChatGPT (OpenAI)" },
+          { source: "Dominant AI Models 2026", target: "Gemini (Google)" },
+          { source: "Dominant AI Models 2026", target: "Claude (Anthropic)" },
+          { source: "Dominant AI Models 2026", target: "Mistral AI" },
+          { source: "Dominant AI Models 2026", target: "Grok (xAI)" },
+          { source: "Dominant AI Models 2026", target: "Perplexity" },
+
+          // OpenAI
+          { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Instant" },
+          { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Thinking" },
+          { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Codex-Max" },
+          { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Pro" },
+
+          // Google
+          { source: "Gemini (Google)", target: "Gemini 3 Pro" },
+          { source: "Gemini (Google)", target: "Gemini 3 Deep Think" },
+          { source: "Gemini (Google)", target: "Veo 3" },
+          { source: "Gemini (Google)", target: "Nano Banana Pro" },
+
+          // Anthropic
+          { source: "Claude (Anthropic)", target: "Claude Opus 4.5" },
+          { source: "Claude (Anthropic)", target: "Claude Sonnet 4.5" },
+          { source: "Claude (Anthropic)", target: "Constitutional AI" },
+          { source: "Claude (Anthropic)", target: "Claude Haiku 3.5" },
+
+          // Mistral
+          { source: "Mistral AI", target: "Mistral Large 3" },
+          { source: "Mistral AI", target: "Pixtral Large" },
+          { source: "Mistral AI", target: "Codestral" },
+          { source: "Mistral AI", target: "GDPR & Sovereignty" },
+
+          // Grok (xAI)
+          { source: "Grok (xAI)", target: "Grok 4.1 Thinking" },
+          { source: "Grok (xAI)", target: "Grok 4.1 Fast" },
+          { source: "Grok (xAI)", target: "Real-time Nexus" },
+
+          // Perplexity
+          { source: "Perplexity", target: "Deep Research" },
+          { source: "Perplexity", target: "Pro Search" },
+          { source: "Perplexity", target: "Citation Engine" },
+        ]
+      };
+
+      // --- COMPONENTS ---
+
+      const ConstellationGraph = ({ data, width, height }) => {
+        const svgRef = React.useRef(null);
+        const [hoveredNode, setHoveredNode] = React.useState(null);
+        const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 });
+
+        React.useEffect(() => {
+          if (!svgRef.current) return;
+
+          const svg = d3.select(svgRef.current);
+          svg.selectAll("*").remove();
+
+          const nodes = data.nodes.map(d => ({ ...d }));
+          const links = data.links.map(d => ({ ...d }));
+
+          const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.level === 0 ? 160 : (d.level === 1 ? 90 : 60)))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide().radius(d => d.radius + 15));
+
+          const link = svg.append("g")
+            .attr("stroke", "#475569")
+            .attr("stroke-opacity", 0.4)
+            .selectAll("line")
+            .data(links)
+            .join("line")
+            .attr("stroke-width", 1.5);
+
+          const drag = d3.drag()
+            .on("start", (event, d) => {
+              if (!event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", (event, d) => {
+              d.fx = event.x;
+              d.fy = event.y;
+            })
+            .on("end", (event, d) => {
+              if (!event.active) simulation.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+            });
+
+          const nodeGroup = svg.append("g")
+            .selectAll("g")
+            .data(nodes)
+            .join("g")
+            .call(drag)
+            .style("cursor", "grab");
+
+          nodeGroup.append("circle")
+            .attr("r", d => d.radius + 6)
+            .attr("fill", d => COLOR_PALETTE[d.group])
+            .attr("opacity", 0.15)
+            .attr("class", "node-glow");
+
+          nodeGroup.append("circle")
+            .attr("r", d => d.radius)
+            .attr("fill", "#0f172a")
+            .attr("stroke", d => COLOR_PALETTE[d.group])
+            .attr("stroke-width", 2)
+            .on("mouseover", (event, d) => {
+              setHoveredNode(d);
+              setTooltipPos({ x: event.pageX, y: event.pageY });
+              d3.select(event.currentTarget)
+                .transition().duration(200)
+                .attr("fill", COLOR_PALETTE[d.group])
+                .attr("r", d.radius + 2);
+            })
+            .on("mouseout", (event, d) => {
+              setHoveredNode(null);
+              d3.select(event.currentTarget)
+                .transition().duration(200)
+                .attr("fill", "#0f172a")
+                .attr("r", d.radius);
+            });
+
+          nodeGroup.append("text")
+            .text(d => d.id)
+            .attr("x", 0)
+            .attr("y", d => d.radius + 14)
+            .attr("text-anchor", "middle")
+            .attr("fill", "#e2e8f0")
+            .style("font-size", d => d.level === 0 ? "14px" : "10px")
+            .style("font-weight", d => d.level <= 1 ? "700" : "400")
+            .style("pointer-events", "none")
+            .style("text-shadow", "0 2px 4px rgba(0,0,0,0.8)");
+
+          simulation.on("tick", () => {
+            link
+              .attr("x1", d => d.source.x)
+              .attr("y1", d => d.source.y)
+              .attr("x2", d => d.target.x)
+              .attr("y2", d => d.target.y);
+
+            nodeGroup.attr("transform", d => `translate(${d.x},${d.y})`);
+          });
+
+          return () => simulation.stop();
+        }, [data, width, height]);
+
+        return (
+          <div className="relative w-full h-full">
+            <svg ref={svgRef} width={width} height={height} className="w-full h-full" />
+            {hoveredNode && (
+              <div
+                className="fixed z-50 p-3 bg-slate-900/95 backdrop-blur border border-slate-700 rounded-xl shadow-2xl text-white max-w-xs pointer-events-none"
+                style={{
+                  left: tooltipPos.x + 20,
+                  top: tooltipPos.y - 20,
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span 
+                    className="w-2.5 h-2.5 rounded-full shadow-lg"
+                    style={{ backgroundColor: COLOR_PALETTE[hoveredNode.group] }}
+                  ></span>
+                  <h3 className="font-bold text-sm">{hoveredNode.id}</h3>
+                </div>
+                <p className="text-xs text-slate-400">{hoveredNode.description}</p>
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      // --- MODIFIED FILTER BUTTON (Split Button) ---
+      const FilterButton = ({ active, onClick, label, color, url }) => {
+        // Handle "white" colors for better visibility
+        const isWhite = color === '#f8fafc' || color === '#ffffff';
+        const textColor = active && isWhite ? 'text-slate-900' : 'text-white';
+        const shadowColor = active ? 'ring-1 ring-white/30' : '';
+        
+        return (
+          <div 
+            className={`flex items-center rounded-full transition-all duration-300 transform hover:scale-105 ${
+              active ? `${color} ${textColor} shadow-lg ${shadowColor}` : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+            }`}
+            style={active && color.startsWith('#') ? { backgroundColor: color } : {}}
+          >
+            {/* Filter Action (Left side) */}
+            <button
+              onClick={onClick}
+              className="px-3 py-1.5 text-[10px] sm:text-xs font-semibold rounded-l-full h-full"
+            >
+              {label}
+            </button>
+            
+            {/* External Link Action (Right side) - Only if URL exists */}
+            {url && (
+              <a 
+                href={url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                title={`Open ${label} login page`}
+                className={`px-2 py-1.5 border-l h-full flex items-center justify-center rounded-r-full hover:bg-black/10 transition-colors ${active ? 'border-white/20' : 'border-slate-600'}`}
+                onClick={(e) => e.stopPropagation()} // Prevent triggering filter
+              >
+                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                   <polyline points="15 3 21 3 21 9"></polyline>
+                   <line x1="10" y1="14" x2="21" y2="3"></line>
+                 </svg>
+              </a>
+            )}
+             {/* If no URL, add right padding to balance */}
+            {!url && <div className="pr-1"></div>}
+          </div>
+        );
+      };
+
+      const App = () => {
+        const [windowSize, setWindowSize] = React.useState({ width: window.innerWidth, height: window.innerHeight });
+        const [selectedCluster, setSelectedCluster] = React.useState('ALL');
+
+        React.useEffect(() => {
+          const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+          window.addEventListener('resize', handleResize);
+          return () => window.removeEventListener('resize', handleResize);
+        }, []);
+
+        const filteredData = React.useMemo(() => {
+          if (selectedCluster === 'ALL') return INITIAL_GRAPH_DATA;
+          const relevantIds = new Set();
+          const root = INITIAL_GRAPH_DATA.nodes.find(n => n.group === ClusterGroup.ROOT);
+          if (root) relevantIds.add(root.id);
+          INITIAL_GRAPH_DATA.nodes.forEach(node => {
+            if (node.group === selectedCluster) relevantIds.add(node.id);
+          });
+          const nodes = INITIAL_GRAPH_DATA.nodes.filter(n => relevantIds.has(n.id));
+          const links = INITIAL_GRAPH_DATA.links.filter(l => relevantIds.has(l.source) && relevantIds.has(l.target));
+          return { nodes, links };
+        }, [selectedCluster]);
+
+        return (
+          <div className="flex flex-col h-screen w-full bg-slate-950 text-white overflow-hidden relative selection:bg-purple-500/30">
+            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900 via-slate-950 to-slate-950"></div>
+            
+            <header className="flex-none p-4 z-10 glass-panel border-b-0 flex flex-col xl:flex-row justify-between items-center gap-4 m-4 rounded-2xl">
+              <div className="text-center xl:text-left">
+                <h1 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                  AI Constellation 2026
+                </h1>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                <FilterButton active={selectedCluster === 'ALL'} onClick={() => setSelectedCluster('ALL')} label="All" color="bg-slate-600" />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.OPENAI} 
+                  onClick={() => setSelectedCluster(ClusterGroup.OPENAI)} 
+                  label="OpenAI" 
+                  color="bg-emerald-600" 
+                  url={MODEL_URLS[ClusterGroup.OPENAI]}
+                />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.GOOGLE} 
+                  onClick={() => setSelectedCluster(ClusterGroup.GOOGLE)} 
+                  label="Google" 
+                  color="bg-blue-600" 
+                  url={MODEL_URLS[ClusterGroup.GOOGLE]}
+                />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.ANTHROPIC} 
+                  onClick={() => setSelectedCluster(ClusterGroup.ANTHROPIC)} 
+                  label="Anthropic" 
+                  color="bg-orange-600" 
+                  url={MODEL_URLS[ClusterGroup.ANTHROPIC]}
+                />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.MISTRAL} 
+                  onClick={() => setSelectedCluster(ClusterGroup.MISTRAL)} 
+                  label="Mistral" 
+                  color="bg-slate-500" 
+                  url={MODEL_URLS[ClusterGroup.MISTRAL]}
+                />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.XAI} 
+                  onClick={() => setSelectedCluster(ClusterGroup.XAI)} 
+                  label="Grok (xAI)" 
+                  color="#f8fafc" 
+                  url={MODEL_URLS[ClusterGroup.XAI]}
+                />
+                
+                <FilterButton 
+                  active={selectedCluster === ClusterGroup.PERPLEXITY} 
+                  onClick={() => setSelectedCluster(ClusterGroup.PERPLEXITY)} 
+                  label="Perplexity" 
+                  color="#06b6d4" 
+                  url={MODEL_URLS[ClusterGroup.PERPLEXITY]}
+                />
+              </div>
+            </header>
+
+            <main className="flex-1 relative overflow-hidden m-4 mt-0 rounded-2xl glass-panel shadow-2xl">
+              <ConstellationGraph data={filteredData} width={windowSize.width - 32} height={windowSize.height - 140} />
+            </main>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+</body>
+</html>

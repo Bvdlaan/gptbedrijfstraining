@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Constellation Map 2026: Interactive Landscape</title>
+    <meta name="description"
+        content="Interactieve visualisatie van het AI-landschap in 2026. Vergelijk modellen en navigeer strategisch.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            /* Slate 950 */
+            color: white;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .node-glow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.15;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: scale(1.1);
+            }
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "AI Constellation Map 2026",
+          "url": "https://gptbedrijfstraining.nl/constellation.html",
+          "description": "Een interactieve visualisatie van het AI-landschap in 2026. Vergelijk ChatGPT 5.1, Gemini 3, Claude Opus 4.5 en andere topmodellen.",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "All",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+          "author": { "@type": "Organization", "name": "GPT Bedrijfstraining" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [{
+            "@type": "Question",
+            "name": "Wat kan ik met de AI Constellation Map?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Deze kaart visualiseert de relaties tussen verschillende AI-modellen en hun specialisaties (zoals coderen, redeneren of privacy), zodat u in één oogopslag de juiste tool voor uw bedrijf kiest." }
+          }, {
+            "@type": "Question",
+            "name": "Hoe werkt de navigatie?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Gebruik het menu bovenaan om te filteren op aanbieder. Klik op het pijl-icoon (↗) om direct naar de tool te gaan. Beweeg over de bollen voor details." }
+          }, {
+            "@type": "Question",
+            "name": "Welk AI-model is het beste voor programmeren in 2026?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Claude Opus 4.5 wordt beschouwd als de marktleider voor softwareontwikkeling, met een score van 80,9% op de SWE-Bench benchmark." }
+          }]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- CONSTANTS & DATA ---
+        const ClusterGroup = {
+            ROOT: 'ROOT',
+            OPENAI: 'OPENAI',
+            GOOGLE: 'GOOGLE',
+            ANTHROPIC: 'ANTHROPIC',
+            MISTRAL: 'MISTRAL',
+            XAI: 'XAI',
+            PERPLEXITY: 'PERPLEXITY'
+        };
+
+        const COLOR_PALETTE = {
+            [ClusterGroup.ROOT]: '#a855f7',
+            [ClusterGroup.OPENAI]: '#10b981',
+            [ClusterGroup.GOOGLE]: '#3b82f6',
+            [ClusterGroup.ANTHROPIC]: '#f97316',
+            [ClusterGroup.MISTRAL]: '#94a3b8',
+            [ClusterGroup.XAI]: '#f8fafc',
+            [ClusterGroup.PERPLEXITY]: '#06b6d4'
+        };
+
+        const MODEL_URLS = {
+            [ClusterGroup.OPENAI]: 'https://chatgpt.com',
+            [ClusterGroup.GOOGLE]: 'https://gemini.google.com',
+            [ClusterGroup.ANTHROPIC]: 'https://claude.ai',
+            [ClusterGroup.MISTRAL]: 'https://chat.mistral.ai',
+            [ClusterGroup.XAI]: 'https://grok.com',
+            [ClusterGroup.PERPLEXITY]: 'https://perplexity.ai'
+        };
+
+        const INITIAL_GRAPH_DATA = {
+            nodes: [
+                { id: "Dominant AI Models 2026", group: ClusterGroup.ROOT, level: 0, radius: 45, description: "The central hub of the 2026 AI landscape." },
+                { id: "ChatGPT (OpenAI)", group: ClusterGroup.OPENAI, level: 1, radius: 28, description: "Market leader in versatile generative AI." },
+                { id: "Gemini (Google)", group: ClusterGroup.GOOGLE, level: 1, radius: 28, description: "The context champion & science leader." },
+                { id: "Claude (Anthropic)", group: ClusterGroup.ANTHROPIC, level: 1, radius: 28, description: "Engineering, safety & autonomous agents." },
+                { id: "Mistral AI", group: ClusterGroup.MISTRAL, level: 1, radius: 28, description: "European privacy & open-weight champion." },
+                { id: "Grok (xAI)", group: ClusterGroup.XAI, level: 1, radius: 28, description: "Real-time X integration & emotional intelligence." },
+                { id: "Perplexity", group: ClusterGroup.PERPLEXITY, level: 1, radius: 28, description: "The answer engine & deep research tool." },
+
+                { id: "GPT-5.1 Instant", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "8 Personality profiles & human-like interaction." },
+                { id: "GPT-5.1 Thinking", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "Adaptive reasoning for strategy (87.7% AIME)." },
+                { id: "GPT-5.1 Codex-Max", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "Specialized coding model (77.9% SWE-Bench)." },
+                { id: "GPT-5.1 Pro", group: ClusterGroup.OPENAI, level: 2, radius: 14, description: "High-accuracy enterprise model." },
+
+                { id: "Gemini 3 Pro", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "2M token context, #1 in science benchmarks." },
+                { id: "Gemini 3 Deep Think", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "PhD-level reasoning (41% Humanity's Exam)." },
+                { id: "Veo 3", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "Hyper-realistic generative video engine." },
+                { id: "Nano Banana Pro", group: ClusterGroup.GOOGLE, level: 2, radius: 14, description: "Studio-quality image generation." },
+
+                { id: "Claude Opus 4.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "#1 Coding (80.9% SWE-Bench), self-improving agents." },
+                { id: "Claude Sonnet 4.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "30-hour autonomous agent workflows." },
+                { id: "Constitutional AI", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "Safety-first alignment for enterprise." },
+                { id: "Claude Haiku 3.5", group: ClusterGroup.ANTHROPIC, level: 2, radius: 14, description: "High-speed, cost-efficient processing." },
+
+                { id: "Mistral Large 3", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Enterprise-grade, multilingual & on-premise." },
+                { id: "Pixtral Large", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Multimodal (docs/images) with 128k context." },
+                { id: "Codestral", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Local code completion & fill-in-the-middle." },
+                { id: "GDPR & Sovereignty", group: ClusterGroup.MISTRAL, level: 2, radius: 14, description: "Data stays within EU borders/local servers." },
+
+                { id: "Grok 4.1 Thinking", group: ClusterGroup.XAI, level: 2, radius: 14, description: "High EQ & reduced hallucinations." },
+                { id: "Grok 4.1 Fast", group: ClusterGroup.XAI, level: 2, radius: 14, description: "Ultra-fast, witty personality." },
+                { id: "Real-time Nexus", group: ClusterGroup.XAI, level: 2, radius: 14, description: "Instant access to X (Twitter) live data." },
+
+                { id: "Deep Research", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "Agentic web browsing for complex reports." },
+                { id: "Pro Search", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "Multi-step reasoning for perfect answers." },
+                { id: "Citation Engine", group: ClusterGroup.PERPLEXITY, level: 2, radius: 14, description: "100% sourced answers with academic trust." },
+            ],
+            links: [
+                { source: "Dominant AI Models 2026", target: "ChatGPT (OpenAI)" },
+                { source: "Dominant AI Models 2026", target: "Gemini (Google)" },
+                { source: "Dominant AI Models 2026", target: "Claude (Anthropic)" },
+                { source: "Dominant AI Models 2026", target: "Mistral AI" },
+                { source: "Dominant AI Models 2026", target: "Grok (xAI)" },
+                { source: "Dominant AI Models 2026", target: "Perplexity" },
+                { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Instant" },
+                { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Thinking" },
+                { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Codex-Max" },
+                { source: "ChatGPT (OpenAI)", target: "GPT-5.1 Pro" },
+                { source: "Gemini (Google)", target: "Gemini 3 Pro" },
+                { source: "Gemini (Google)", target: "Gemini 3 Deep Think" },
+                { source: "Gemini (Google)", target: "Veo 3" },
+                { source: "Gemini (Google)", target: "Nano Banana Pro" },
+                { source: "Claude (Anthropic)", target: "Claude Opus 4.5" },
+                { source: "Claude (Anthropic)", target: "Claude Sonnet 4.5" },
+                { source: "Claude (Anthropic)", target: "Constitutional AI" },
+                { source: "Claude (Anthropic)", target: "Claude Haiku 3.5" },
+                { source: "Mistral AI", target: "Mistral Large 3" },
+                { source: "Mistral AI", target: "Pixtral Large" },
+                { source: "Mistral AI", target: "Codestral" },
+                { source: "Mistral AI", target: "GDPR & Sovereignty" },
+                { source: "Grok (xAI)", target: "Grok 4.1 Thinking" },
+                { source: "Grok (xAI)", target: "Grok 4.1 Fast" },
+                { source: "Grok (xAI)", target: "Real-time Nexus" },
+                { source: "Perplexity", target: "Deep Research" },
+                { source: "Perplexity", target: "Pro Search" },
+                { source: "Perplexity", target: "Citation Engine" },
+            ]
+        };
+
+        // --- COMPONENTS ---
+
+        const ConstellationGraph = ({ data, width, height }) => {
+            const svgRef = React.useRef(null);
+            const [hoveredNode, setHoveredNode] = React.useState(null);
+            const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 });
+
+            React.useEffect(() => {
+                if (!svgRef.current) return;
+                const svg = d3.select(svgRef.current);
+                svg.selectAll("*").remove();
+
+                const nodes = data.nodes.map(d => ({ ...d }));
+                const links = data.links.map(d => ({ ...d }));
+
+                const simulation = d3.forceSimulation(nodes)
+                    .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.level === 0 ? 160 : (d.level === 1 ? 90 : 60)))
+                    .force("charge", d3.forceManyBody().strength(-400))
+                    .force("center", d3.forceCenter(width / 2, height / 2))
+                    .force("collide", d3.forceCollide().radius(d => d.radius + 15));
+
+                const link = svg.append("g")
+                    .attr("stroke", "#475569")
+                    .attr("stroke-opacity", 0.4)
+                    .selectAll("line")
+                    .data(links)
+                    .join("line")
+                    .attr("stroke-width", 1.5);
+
+                const drag = d3.drag()
+                    .on("start", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    })
+                    .on("drag", (event, d) => {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    })
+                    .on("end", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    });
+
+                const nodeGroup = svg.append("g")
+                    .selectAll("g")
+                    .data(nodes)
+                    .join("g")
+                    .call(drag)
+                    .style("cursor", "grab");
+
+                nodeGroup.append("circle")
+                    .attr("r", d => d.radius + 6)
+                    .attr("fill", d => COLOR_PALETTE[d.group])
+                    .attr("opacity", 0.15)
+                    .attr("class", "node-glow");
+
+                nodeGroup.append("circle")
+                    .attr("r", d => d.radius)
+                    .attr("fill", "#0f172a")
+                    .attr("stroke", d => COLOR_PALETTE[d.group])
+                    .attr("stroke-width", 2)
+                    .on("mouseover", (event, d) => {
+                        setHoveredNode(d);
+                        setTooltipPos({ x: event.pageX, y: event.pageY });
+                        d3.select(event.currentTarget)
+                            .transition().duration(200)
+                            .attr("fill", COLOR_PALETTE[d.group])
+                            .attr("r", d.radius + 2);
+                    })
+                    .on("mouseout", (event, d) => {
+                        setHoveredNode(null);
+                        d3.select(event.currentTarget)
+                            .transition().duration(200)
+                            .attr("fill", "#0f172a")
+                            .attr("r", d.radius);
+                    });
+
+                nodeGroup.append("text")
+                    .text(d => d.id)
+                    .attr("x", 0)
+                    .attr("y", d => d.radius + 14)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "#e2e8f0")
+                    .style("font-size", d => d.level === 0 ? "14px" : "10px")
+                    .style("font-weight", d => d.level <= 1 ? "700" : "400")
+                    .style("pointer-events", "none")
+                    .style("text-shadow", "0 2px 4px rgba(0,0,0,0.8)");
+
+                simulation.on("tick", () => {
+                    link
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+                    nodeGroup.attr("transform", d => `translate(${d.x},${d.y})`);
+                });
+
+                return () => simulation.stop();
+            }, [data, width, height]);
+
+            return (
+                <div className="relative w-full h-full">
+                    <svg ref={svgRef} width={width} height={height} className="w-full h-full" />
+                    {hoveredNode && (
+                        <div
+                            className="fixed z-50 p-3 bg-slate-900/95 backdrop-blur border border-slate-700 rounded-xl shadow-2xl text-white max-w-xs pointer-events-none"
+                            style={{
+                                left: tooltipPos.x + 20,
+                                top: tooltipPos.y - 20,
+                                transform: 'translateY(-50%)'
+                            }}
+                        >
+                            <div className="flex items-center gap-2 mb-1">
+                                <span
+                                    className="w-2.5 h-2.5 rounded-full shadow-lg"
+                                    style={{ backgroundColor: COLOR_PALETTE[hoveredNode.group] }}
+                                ></span>
+                                <h3 className="font-bold text-sm">{hoveredNode.id}</h3>
+                            </div>
+                            <p className="text-xs text-slate-400">{hoveredNode.description}</p>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const FilterButton = ({ active, onClick, label, color, url }) => {
+            const isWhite = color === '#f8fafc' || color === '#ffffff';
+            const textColor = active && isWhite ? 'text-slate-900' : 'text-white';
+            const shadowColor = active ? 'ring-1 ring-white/30' : '';
+
+            return (
+                <div
+                    className={`flex items-center rounded-full transition-all duration-300 transform hover:scale-105 ${active ? `${color} ${textColor} shadow-lg ${shadowColor}` : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                        }`}
+                    style={active && color.startsWith('#') ? { backgroundColor: color } : {}}
+                >
+                    <button onClick={onClick} className="px-3 py-1.5 text-[10px] sm:text-xs font-semibold rounded-l-full h-full">
+                        {label}
+                    </button>
+                    {url && (
+                        <a href={url} target="_blank" rel="noopener noreferrer" className={`px-2 py-1.5 border-l h-full flex items-center justify-center rounded-r-full hover:bg-black/10 transition-colors ${active ? 'border-white/20' : 'border-slate-600'}`} onClick={(e) => e.stopPropagation()}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                    )}
+                    {!url && <div className="pr-1"></div>}
+                </div>
+            );
+        };
+
+        // --- ON-SCREEN GUIDE COMPONENT (NEW) ---
+        const GuidePanel = () => (
+            <div className="absolute bottom-6 left-6 p-4 glass-panel rounded-xl max-w-[200px] border border-slate-700/50 hidden md:block transition-transform hover:scale-105 duration-300 shadow-2xl">
+                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-700 pb-2">Quick Guide</h4>
+                <ul className="text-xs text-slate-300 space-y-2 font-light">
+                    <li className="flex items-center gap-2">
+                        <span className="text-lg">👆</span>
+                        <span><strong>Hover</strong> voor details</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <span className="text-lg">✋</span>
+                        <span><strong>Sleep</strong> de bollen</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <span className="text-lg">↗️</span>
+                        <span>Klik icoon voor <strong>Tool</strong></span>
+                    </li>
+                </ul>
+            </div>
+        );
+
+        // --- MAIN APP COMPONENT ---
+        const App = () => {
+            const [windowSize, setWindowSize] = React.useState({ width: window.innerWidth, height: window.innerHeight });
+            const [selectedCluster, setSelectedCluster] = React.useState('ALL');
+            const [showInfo, setShowInfo] = React.useState(false);
+
+            React.useEffect(() => {
+                const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+
+            const filteredData = React.useMemo(() => {
+                if (selectedCluster === 'ALL') return INITIAL_GRAPH_DATA;
+                const relevantIds = new Set();
+                const root = INITIAL_GRAPH_DATA.nodes.find(n => n.group === ClusterGroup.ROOT);
+                if (root) relevantIds.add(root.id);
+                INITIAL_GRAPH_DATA.nodes.forEach(node => {
+                    if (node.group === selectedCluster) relevantIds.add(node.id);
+                });
+                const nodes = INITIAL_GRAPH_DATA.nodes.filter(n => relevantIds.has(n.id));
+                const links = INITIAL_GRAPH_DATA.links.filter(l => relevantIds.has(l.source) && relevantIds.has(l.target));
+                return { nodes, links };
+            }, [selectedCluster]);
+
+            return (
+                <div className="flex flex-col h-screen w-full bg-slate-950 text-white overflow-hidden relative selection:bg-purple-500/30">
+                    <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900 via-slate-950 to-slate-950"></div>
+
+                    <header className="flex-none p-4 z-10 glass-panel border-b-0 flex flex-col xl:flex-row justify-between items-center gap-4 m-4 rounded-2xl">
+                        <div className="flex items-center justify-center xl:justify-start gap-3">
+                            {/* BACK BUTTON */}
+                            <a href="index.html" className="flex items-center justify-center p-2 rounded-full bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md border border-slate-700/50" title="Terug naar Home">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                            </a>
+
+                            <h1 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                                AI Constellation 2026
+                            </h1>
+
+                            {/* INFO BUTTON */}
+                            <button
+                                onClick={() => setShowInfo(true)}
+                                className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 border border-slate-600 transition-all flex items-center gap-1"
+                            >
+                                <span className="text-sm">ℹ️</span> Info & FAQ
+                            </button>
+                        </div>
+
+                        <div className="flex flex-wrap justify-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                            <FilterButton active={selectedCluster === 'ALL'} onClick={() => setSelectedCluster('ALL')} label="All" color="bg-slate-600" />
+                            <FilterButton active={selectedCluster === ClusterGroup.OPENAI} onClick={() => setSelectedCluster(ClusterGroup.OPENAI)} label="OpenAI" color="bg-emerald-600" url={MODEL_URLS[ClusterGroup.OPENAI]} />
+                            <FilterButton active={selectedCluster === ClusterGroup.GOOGLE} onClick={() => setSelectedCluster(ClusterGroup.GOOGLE)} label="Google" color="bg-blue-600" url={MODEL_URLS[ClusterGroup.GOOGLE]} />
+                            <FilterButton active={selectedCluster === ClusterGroup.ANTHROPIC} onClick={() => setSelectedCluster(ClusterGroup.ANTHROPIC)} label="Anthropic" color="bg-orange-600" url={MODEL_URLS[ClusterGroup.ANTHROPIC]} />
+                            <FilterButton active={selectedCluster === ClusterGroup.MISTRAL} onClick={() => setSelectedCluster(ClusterGroup.MISTRAL)} label="Mistral" color="bg-slate-500" url={MODEL_URLS[ClusterGroup.MISTRAL]} />
+                            <FilterButton active={selectedCluster === ClusterGroup.XAI} onClick={() => setSelectedCluster(ClusterGroup.XAI)} label="Grok (xAI)" color="#f8fafc" url={MODEL_URLS[ClusterGroup.XAI]} />
+                            <FilterButton active={selectedCluster === ClusterGroup.PERPLEXITY} onClick={() => setSelectedCluster(ClusterGroup.PERPLEXITY)} label="Perplexity" color="#06b6d4" url={MODEL_URLS[ClusterGroup.PERPLEXITY]} />
+                        </div>
+                    </header>
+
+                    <main className="flex-1 relative overflow-hidden m-4 mt-0 rounded-2xl glass-panel shadow-2xl">
+                        <ConstellationGraph data={filteredData} width={windowSize.width - 32} height={windowSize.height - 140} />
+
+                        {/* NEW ON-SCREEN GUIDE */}
+                        <GuidePanel />
+                    </main>
+
+                    {/* INFO/FAQ MODAL - UPDATED CONTENT */}
+                    {showInfo && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setShowInfo(false)}>
+                            <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setShowInfo(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">✕</button>
+
+                                <h2 className="text-2xl font-bold mb-4 text-white">Over de AI Constellation Map 2026</h2>
+                                <p className="text-slate-300 mb-6 text-sm leading-relaxed">
+                                    Welkom in het AI-heelal. Deze kaart helpt u navigeren door de complexe wereld van kunstmatige intelligentie. In plaats van een saaie lijst, ziet u hier hoe de modellen (zoals GPT-5.1 en Gemini 3) zich tot elkaar verhouden.
+                                </p>
+
+                                <h3 className="text-xl font-bold mb-4 text-emerald-400 border-b border-emerald-500/20 pb-2">Veelgestelde Vragen (FAQ)</h3>
+
+                                <div className="space-y-5">
+                                    <div>
+                                        <h4 className="font-bold text-white text-sm">Wat kan ik met deze kaart?</h4>
+                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">U kunt direct zien welke aanbieder (bijv. Google of Anthropic) de beste modellen heeft voor uw specifieke doel. Gebruik de filters bovenaan om de ruis weg te halen en alleen één 'familie' te zien.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-white text-sm">Hoe werkt de navigatie?</h4>
+                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">
+                                            1. <strong>Hover</strong> over een bolletje om de specificaties te lezen.<br />
+                                            2. <strong>Klik</strong> op de pijl (↗) in het menu om direct naar de website van de tool te gaan.<br />
+                                            3. <strong>Sleep</strong> de bollen om uw eigen overzicht te creëren.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-white text-sm">Welk AI-model is het beste voor programmeren?</h4>
+                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">Claude Opus 4.5 is de onbetwiste marktleider met een score van 80,9% op SWE-Bench en autonome mogelijkheden.</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-white text-sm">Welk model is GDPR-proof?</h4>
+                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">Mistral Large 3 (Europees) biedt de beste garanties voor datasoevereiniteit en kan lokaal draaien.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+
+    <script>
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+                return false;
+            }
+        };
+    </script>
+</body>
+
+</html>

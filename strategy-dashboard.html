@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Strategy Board 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.25);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Prevent text selection for basic security */
+        body {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 min-h-screen">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- DATA ---
+        const aiTools = [
+            // OPENAI
+            {
+                id: "gpt-51-instant",
+                name: "GPT-5.1 Instant",
+                vendor: "OpenAI",
+                category: "Ops & Communication",
+                description: "The daily driver. 8 Personality profiles make it perfect for drafting emails and customer empathy tasks.",
+                maturity: "Level 3 - Operational",
+                roi: "Time Saving",
+                action: "Scale",
+                price: "$25/seat",
+                priceTier: "Low Cost (<$30)",
+                icon: "⚡",
+                color: "text-emerald-400",
+                borderColor: "border-emerald-500/20"
+            },
+            {
+                id: "gpt-51-think",
+                name: "GPT-5.1 Thinking",
+                vendor: "OpenAI",
+                category: "Strategy & Finance",
+                description: "Adaptive reasoning time. Essential for financial forecasting, logic puzzles, and strategic scenario planning.",
+                maturity: "Level 2 - Active",
+                roi: "Strategic Value",
+                action: "Pilot",
+                price: "$50/user",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "🧠",
+                color: "text-emerald-400",
+                borderColor: "border-emerald-500/20"
+            },
+            {
+                id: "gpt-51-codex",
+                name: "GPT-5.1 Codex-Max",
+                vendor: "OpenAI",
+                category: "Software Dev",
+                description: "Specialized coding model (77.9% SWE-Bench). Use for code reviews and debugging legacy systems.",
+                maturity: "Level 4 - Systemic",
+                roi: "Efficiency Play",
+                action: "Automate",
+                price: "$99/dev",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "💻",
+                color: "text-emerald-400",
+                borderColor: "border-emerald-500/20"
+            },
+            {
+                id: "gpt-51-pro",
+                name: "GPT-5.1 Pro",
+                vendor: "OpenAI",
+                category: "Enterprise Ops",
+                description: "High-accuracy model for mission-critical business workflows where hallucinations are not an option.",
+                maturity: "Level 4 - Systemic",
+                roi: "Risk Reduction",
+                action: "Mandate",
+                price: "Custom Quote",
+                priceTier: "Enterprise",
+                icon: "🏢",
+                color: "text-emerald-400",
+                borderColor: "border-emerald-500/20"
+            },
+            {
+                id: "gpt-4",
+                name: "ChatGPT 4",
+                vendor: "OpenAI",
+                category: "General Use",
+                description: "Proven, highly versatile model for content creation, summarization, and creative tasks.",
+                maturity: "Level 4 - Systemic",
+                roi: "Time Saving",
+                action: "Scale",
+                price: "$20/user",
+                priceTier: "Low Cost (<$30)",
+                icon: "🤖",
+                color: "text-emerald-400",
+                borderColor: "border-emerald-500/20"
+            },
+
+            // GOOGLE
+            {
+                id: "gem-3-pro",
+                name: "Gemini 3 Pro",
+                vendor: "Google",
+                category: "Big Data & Science",
+                description: "2M token context. Analyze entire databases, legal archives, or long video footage in one prompt.",
+                maturity: "Level 3 - Operational",
+                roi: "High Impact",
+                action: "Scale",
+                price: "$150/API Access",
+                priceTier: "High Value (>$100)",
+                icon: "🧬",
+                color: "text-blue-400",
+                borderColor: "border-blue-500/20"
+            },
+            {
+                id: "gem-3-deep",
+                name: "Gemini 3 Deep Think",
+                vendor: "Google",
+                category: "R&D & Innovation",
+                description: "PhD-level reasoning. Solves abstract problems that stump other models (Humanity's Last Exam).",
+                maturity: "Level 2 - Active",
+                roi: "Innovation",
+                action: "Pilot",
+                price: "$300/researcher",
+                priceTier: "High Value (>$100)",
+                icon: "🔬",
+                color: "text-blue-400",
+                borderColor: "border-blue-500/20"
+            },
+            {
+                id: "gem-25-adv",
+                name: "Gemini 2.5 Advanced",
+                vendor: "Google",
+                category: "Advanced Analytics",
+                description: "Robust, multi-modal reasoning, ideal for complex problem-solving and cross-domain data interpretation.",
+                maturity: "Level 3 - Operational",
+                roi: "Strategic Value",
+                action: "Scale",
+                price: "$35/user",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "📊",
+                color: "text-blue-400",
+                borderColor: "border-blue-500/20"
+            },
+            {
+                id: "veo-3",
+                name: "Veo 3",
+                vendor: "Google",
+                category: "Video Marketing",
+                description: "Hyper-realistic video generation. Create ads and social content without a production crew.",
+                maturity: "Level 2 - Active",
+                roi: "Cost Saving",
+                action: "Pilot",
+                price: "$199/month",
+                priceTier: "High Value (>$100)",
+                icon: "🎥",
+                color: "text-blue-400",
+                borderColor: "border-blue-500/20"
+            },
+
+            // OTHER VENDORS (ImageForge)
+            {
+                id: "nano-banana",
+                name: "Nano Banana Pro",
+                vendor: "ImageForge Inc.",
+                category: "Visual Design",
+                description: "Studio-quality image editing and generation. Replaces stock photography subscriptions.",
+                maturity: "Level 3 - Operational",
+                roi: "Efficiency Play",
+                action: "Scale",
+                price: "$49/month",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "🎨",
+                color: "text-pink-400",
+                borderColor: "border-pink-500/20"
+            },
+
+            // ANTHROPIC
+            {
+                id: "claude-opus",
+                name: "Claude Opus 4.5",
+                vendor: "Anthropic",
+                category: "Engineering Lead",
+                description: "#1 Coding model (80.9% SWE-Bench). Can self-improve code. The gold standard for dev teams.",
+                maturity: "Level 4 - Systemic",
+                roi: "High Impact",
+                action: "Automate",
+                price: "$120/dev",
+                priceTier: "High Value (>$100)",
+                icon: "🏗️",
+                color: "text-orange-400",
+                borderColor: "border-orange-500/20"
+            },
+            {
+                id: "claude-sonnet",
+                name: "Claude Sonnet 4.5",
+                vendor: "Anthropic",
+                category: "Agent Workflows",
+                description: "The workhorse. Capable of 30-hour autonomous tasks. Ideal for background data processing agents.",
+                maturity: "Level 3 - Operational",
+                roi: "Efficiency Play",
+                action: "Scale",
+                price: "$75/agent",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "🤖",
+                color: "text-orange-400",
+                borderColor: "border-orange-500/20"
+            },
+            {
+                id: "claude-haiku",
+                name: "Claude Haiku 3.5",
+                vendor: "Anthropic",
+                category: "Customer Support",
+                description: "Ultra-fast and cheap. Perfect for powering real-time chatbots and high-volume ticket triage.",
+                maturity: "Level 4 - Systemic",
+                roi: "Cost Saving",
+                action: "Automate",
+                price: "$0.05/1k tokens",
+                priceTier: "Low Cost (<$30)",
+                icon: "⚡",
+                color: "text-orange-400",
+                borderColor: "border-orange-500/20"
+            },
+            {
+                id: "const-ai",
+                name: "Constitutional AI",
+                vendor: "Anthropic",
+                category: "Legal & Compliance",
+                description: "Safety-first alignment. Use for analyzing contracts or generating legally sensitive text.",
+                maturity: "Level 3 - Operational",
+                roi: "Risk Reduction",
+                action: "Mandate",
+                price: "Custom Quote",
+                priceTier: "Enterprise",
+                icon: "⚖️",
+                color: "text-orange-400",
+                borderColor: "border-orange-500/20"
+            },
+
+            // MISTRAL
+            {
+                id: "mistral-large",
+                name: "Mistral Large 3",
+                vendor: "Mistral AI",
+                category: "Privacy Core",
+                description: "GDPR-compliant enterprise model. Ideal for EU businesses handling sensitive personal data.",
+                maturity: "Level 3 - Operational",
+                roi: "Risk Reduction",
+                action: "Mandate",
+                price: "€100/seat",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "🇪🇺",
+                color: "text-indigo-400",
+                borderColor: "border-indigo-500/20"
+            },
+            {
+                id: "pixtral",
+                name: "Pixtral Large",
+                vendor: "Mistral AI",
+                category: "Doc Processing",
+                description: "Multimodal analysis (Docs/Images) with 128k context. Great for digitizing paper archives securely.",
+                maturity: "Level 2 - Active",
+                roi: "Efficiency Play",
+                action: "Pilot",
+                price: "€50/user",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "📄",
+                color: "text-indigo-400",
+                borderColor: "border-indigo-500/20"
+            },
+            {
+                id: "codestral",
+                name: "Codestral",
+                vendor: "Mistral AI",
+                category: "Local Dev",
+                description: "Specialized in local code completion. Keeps proprietary code on your own servers.",
+                maturity: "Level 3 - Operational",
+                roi: "Security",
+                action: "Automate",
+                price: "Enterprise License",
+                priceTier: "Enterprise",
+                icon: "🔒",
+                color: "text-indigo-400",
+                borderColor: "border-indigo-500/20"
+            },
+
+            // xAI / GROK
+            {
+                id: "grok-think",
+                name: "Grok 4.1 Thinking",
+                vendor: "xAI",
+                category: "Crisis Mgmt",
+                description: "High EQ and reduced hallucinations. Good for analyzing sentiment during PR crises.",
+                maturity: "Level 2 - Active",
+                roi: "Strategic Value",
+                action: "Monitor",
+                price: "w/ X Premium",
+                priceTier: "Low Cost (<$30)",
+                icon: "🧠",
+                color: "text-slate-200",
+                borderColor: "border-slate-500/20"
+            },
+            {
+                id: "grok-fast",
+                name: "Grok 4.1 Fast",
+                vendor: "xAI",
+                category: "Social Media",
+                description: "Witty personality. Use for rapid, engaging social media replies and community management.",
+                maturity: "Level 3 - Operational",
+                roi: "Brand Awareness",
+                action: "Scale",
+                price: "w/ X Premium",
+                priceTier: "Low Cost (<$30)",
+                icon: "🐦",
+                color: "text-slate-200",
+                borderColor: "border-slate-500/20"
+            },
+            {
+                id: "rt-nexus",
+                name: "Real-time Nexus",
+                vendor: "DataStream Co.",
+                category: "Trend Monitoring",
+                description: "Direct connection to live X (Twitter) data. Spot trends before they hit the mainstream news.",
+                maturity: "Level 2 - Active",
+                roi: "Strategic Value",
+                action: "Monitor",
+                price: "$99/user",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "📡",
+                color: "text-slate-200",
+                borderColor: "border-slate-500/20"
+            },
+
+            // PERPLEXITY & SEARCH
+            {
+                id: "deep-research",
+                name: "Deep Research",
+                vendor: "Inteligent Labs",
+                category: "Market Intel",
+                description: "Agentic browsing. Generates comprehensive market reports with citations. Replaces hours of Googling.",
+                maturity: "Level 3 - Operational",
+                roi: "Time Saving",
+                action: "Scale",
+                price: "$59/month",
+                priceTier: "Mid Range ($30-$99)",
+                icon: "🔎",
+                color: "text-cyan-400",
+                borderColor: "border-cyan-500/20"
+            },
+            {
+                id: "pro-search",
+                name: "Pro Search",
+                vendor: "Focus Engine",
+                category: "Business Intel",
+                description: "Multi-step reasoning for perfect answers. The reliable search engine for professionals.",
+                maturity: "Level 3 - Operational",
+                roi: "Efficiency Play",
+                action: "Scale",
+                price: "$29/month",
+                priceTier: "Low Cost (<$30)",
+                icon: "🎯",
+                color: "text-cyan-400",
+                borderColor: "border-cyan-500/20"
+            },
+            {
+                id: "perp-pro",
+                name: "Perplexity Pro",
+                vendor: "Perplexity AI",
+                category: "AI Search",
+                description: "Advanced generative search engine that provides cited answers and comprehensive research reports.",
+                maturity: "Level 3 - Operational",
+                roi: "High Accuracy",
+                action: "Scale",
+                price: "$20/month",
+                priceTier: "Low Cost (<$30)",
+                icon: "🌐",
+                color: "text-cyan-400",
+                borderColor: "border-cyan-500/20"
+            }
+        ];
+
+        // --- COMPONENTS ---
+
+        const Badge = ({ children, type }) => {
+            const colors = {
+                Scale: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                Monitor: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+                Automate: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+                Pilot: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                Mandate: "bg-red-500/10 text-red-400 border-red-500/20",
+            };
+
+            return (
+                <span className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-md border ${colors[children] || "bg-slate-800 text-white"}`}>
+                    {children}
+                </span>
+            );
+        };
+
+        const StrategyBoard = () => {
+            const [filterMaturity, setFilterMaturity] = React.useState("All");
+            const [filterROI, setFilterROI] = React.useState("All");
+            const [filterAction, setFilterAction] = React.useState("All");
+            const [filterPrice, setFilterPrice] = React.useState("All");
+
+            const maturities = ["All", ...new Set(aiTools.map(t => t.maturity))];
+            const rois = ["All", ...new Set(aiTools.map(t => t.roi))];
+            const actions = ["All", ...new Set(aiTools.map(t => t.action))];
+            const prices = ["All", "Low Cost (<$30)", "Mid Range ($30-$99)", "High Value (>$100)", "Enterprise"];
+
+            const filteredTools = aiTools.filter(tool => {
+                return (filterMaturity === "All" || tool.maturity === filterMaturity) &&
+                    (filterROI === "All" || tool.roi === filterROI) &&
+                    (filterAction === "All" || tool.action === filterAction) &&
+                    (filterPrice === "All" || tool.priceTier === filterPrice);
+            });
+
+            return (
+                <div className="max-w-7xl mx-auto">
+                    {/* Header */}
+                    <header className="mb-8">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400">
+                                    Strategic AI Audit 2026
+                                </h1>
+                                <p className="text-slate-400 mt-1 text-sm font-medium">
+                                    Strategy Board for {aiTools.length} market-leading tools (Updated 2026).
+                                </p>
+                            </div>
+                            <div className="bg-slate-900 px-4 py-2 rounded-lg border border-slate-800">
+                                <span className="text-xs text-slate-500 uppercase font-bold mr-2">Tools:</span>
+                                <span className="text-white font-mono font-bold">{filteredTools.length}</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Filters */}
+                    <div className="bg-slate-900/80 backdrop-blur p-5 rounded-2xl border border-slate-800 mb-8 grid grid-cols-2 md:grid-cols-5 gap-4 shadow-xl">
+                        <div className="w-full">
+                            <label className="text-[10px] text-slate-500 uppercase font-extrabold tracking-wider block mb-2 pl-1">Maturity</label>
+                            <select value={filterMaturity} onChange={(e) => setFilterMaturity(e.target.value)} className="w-full bg-slate-950 border border-slate-700 text-slate-300 rounded-lg p-2 focus:border-indigo-500 outline-none text-xs h-10">
+                                {maturities.map(m => <option key={m} value={m}>{m}</option>)}
+                            </select>
+                        </div>
+
+                        <div className="w-full">
+                            <label className="text-[10px] text-slate-500 uppercase font-extrabold tracking-wider block mb-2 pl-1">ROI Value</label>
+                            <select value={filterROI} onChange={(e) => setFilterROI(e.target.value)} className="w-full bg-slate-950 border border-slate-700 text-slate-300 rounded-lg p-2 focus:border-indigo-500 outline-none text-xs h-10">
+                                {rois.map(r => <option key={r} value={r}>{r}</option>)}
+                            </select>
+                        </div>
+
+                        <div className="w-full">
+                            <label className="text-[10px] text-slate-500 uppercase font-extrabold tracking-wider block mb-2 pl-1">Action</label>
+                            <select value={filterAction} onChange={(e) => setFilterAction(e.target.value)} className="w-full bg-slate-950 border border-slate-700 text-slate-300 rounded-lg p-2 focus:border-indigo-500 outline-none text-xs h-10">
+                                {actions.map(a => <option key={a} value={a}>{a}</option>)}
+                            </select>
+                        </div>
+
+                        <div className="w-full">
+                            <label className="text-[10px] text-emerald-500 uppercase font-extrabold tracking-wider block mb-2 pl-1">Pricing Tier</label>
+                            <select value={filterPrice} onChange={(e) => setFilterPrice(e.target.value)} className="w-full bg-slate-950 border border-emerald-900/50 text-emerald-100 rounded-lg p-2 focus:border-emerald-500 outline-none text-xs h-10">
+                                {prices.map(p => <option key={p} value={p}>{p}</option>)}
+                            </select>
+                        </div>
+
+                        <div className="flex items-end">
+                            <button
+                                onClick={() => { setFilterMaturity("All"); setFilterROI("All"); setFilterAction("All"); setFilterPrice("All"); }}
+                                className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 rounded-lg border border-slate-700 transition-all font-medium h-10 w-full text-xs"
+                            >
+                                Reset Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        {filteredTools.map(tool => (
+                            <div key={tool.id} className={`bg-slate-900/50 border ${tool.borderColor || 'border-slate-800'} rounded-xl p-5 transition-all duration-300 card-hover flex flex-col justify-between h-full group relative overflow-hidden`}>
+
+                                <div>
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="text-3xl bg-slate-950 p-2 rounded-lg border border-slate-800 group-hover:scale-110 transition-transform duration-300">{tool.icon}</div>
+                                        <Badge>{tool.action}</Badge>
+                                    </div>
+
+                                    <div className="mb-1">
+                                        <span className="text-[10px] text-slate-500 font-bold uppercase">{tool.vendor}</span>
+                                    </div>
+                                    <h3 className={`text-lg font-bold mb-1 truncate ${tool.color}`}>{tool.name}</h3>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 opacity-80">{tool.category}</p>
+
+                                    <p className="text-slate-400 text-xs leading-relaxed mb-8 line-clamp-3">
+                                        {tool.description}
+                                    </p>
+                                </div>
+
+                                <div className="border-t border-slate-800/50 pt-3 mt-auto">
+                                    <div className="flex justify-between items-center text-[10px] mb-1.5">
+                                        <span className="text-slate-500 uppercase font-semibold">Stage</span>
+                                        <span className="text-slate-300 font-medium text-right truncate max-w-[60%]">{tool.maturity.split('-')[1]}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-slate-500 uppercase font-semibold">ROI</span>
+                                        <span className="text-emerald-400 font-medium text-right">{tool.roi}</span>
+                                    </div>
+                                </div>
+
+                                {/* Price Badge Bottom Right */}
+                                <div className="absolute bottom-3 right-3">
+                                    <span className="bg-slate-950 border border-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded shadow-sm font-mono">
+                                        {tool.price}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {filteredTools.length === 0 && (
+                        <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-dashed border-slate-800">
+                            <p className="text-slate-500 text-lg mb-2">No tools match your filters.</p>
+                            <button
+                                onClick={() => { setFilterMaturity("All"); setFilterROI("All"); setFilterAction("All"); setFilterPrice("All"); }}
+                                className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm font-semibold hover:underline"
+                            >
+                                Clear all filters
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<StrategyBoard />);
+    </script>
+
+    <script>
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+                return false;
+            }
+        };
+    </script>
+</body>
+
+</html>

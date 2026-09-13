@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Leiderschap & Implementatie | GPT Bedrijfstraining</title>
+    <meta name="description" content="Zet uw organisatie op voorsprong. De integrale AI-training voor teams die willen leiden in plaats van volgen.">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* Modern Split Layout */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 80px 20px;
+            min-height: 80vh;
+        }
+
+        .hero-text {
+            text-align: left;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-visual img:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #a5f3fc;
+            display: block;
+        }
+
+        /* Zig-Zag Section */
+        .zigzag-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin: 100px 0;
+        }
+
+        .zigzag-row.reversed {
+            direction: rtl; /* Trick to swap columns */
+        }
+
+        .zigzag-row.reversed .text-side {
+            direction: ltr; /* Reset text direction */
+        }
+
+        .feature-img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(33, 152, 243, 0.2); /* Blauwe gloed */
+        }
+
+        .highlight-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .hero-split, .zigzag-row { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-visual img { transform: none; margin-top: 30px; }
+            .zigzag-row { margin: 50px 0; gap: 30px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav class="glass">
+                <a href="index.html" class="logo">
+                    <span style="font-size: 1.2rem;">🚀 GPT Bedrijfstraining</span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="#contact" class="cta-button" style="background: transparent; border: 1px solid white;">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-split">
+            <div class="hero-text">
+                <span class="highlight-badge">AI Personeelstraining</span>
+                <h1>Stop met werken <br>in het verleden.</h1>
+                <p style="font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 30px; line-height: 1.6;">
+                    De toekomst behoort toe aan teams die AI omarmen. 
+                    Onze <strong>GPT Bedrijfstraining</strong> dicht de kloof tussen technologie en uw werkvloer. 
+                    Geen hype, maar directe strategische impact.
+                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="#contact" class="cta-button" style="padding: 15px 30px; font-size: 1.1rem;">Start de transformatie</a>
+                    <a href="#programma" class="cta-button" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Bekijk programma</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="https://gptbedrijfstraining.nl/robot9.jpg" alt="AI in de boardroom">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="glass stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">40%</span>
+                <span style="font-size: 0.9rem; opacity: 0.8;">Tijdwinst op admin taken</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span style="font-size: 0.9rem; opacity: 0.8;">EU AI Act Compliant</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">1 dag</span>
+                <span style="font-size: 0.9rem; opacity: 0.8;">Implementatietijd</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="programma" class="container">
+        
+        <div class="zigzag-row">
+            <div class="image-side">
+                <img src="https://gptbedrijfstraining.nl/robot7.jpg" class="feature-img" alt="AI Assistent">
+            </div>
+            <div class="text-side glass" style="padding: 40px;">
+                <h3>Van 'Tool' naar 'Collega'</h3>
+                <p style="margin: 20px 0; color: rgba(255,255,255,0.8);">
+                    De meeste bedrijven gebruiken ChatGPT verkeerd. Ze zien het als Google. 
+                    Wij leren uw team hoe ze AI inrichten als een pro-actieve medewerker.
+                </p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">✅ <strong>Context Awareness:</strong> AI die uw bedrijf kent.</li>
+                    <li style="margin-bottom: 10px;">✅ <strong>Privacy First:</strong> Geen datalekken naar de VS.</li>
+                    <li style="margin-bottom: 10px;">✅ <strong>High-Level Output:</strong> Geen generieke teksten meer.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="zigzag-row reversed">
+            <div class="image-side">
+                <img src="https://gptbedrijfstraining.nl/robot8.jpg" class="feature-img" alt="Human AI Collaboration">
+            </div>
+            <div class="text-side glass" style="padding: 40px;">
+                <h3>Operationele Excellentie</h3>
+                <p style="margin: 20px 0; color: rgba(255,255,255,0.8);">
+                    Verhoog de standaarden. Laat AI de kwaliteitscontrole doen, de analyses draaien en de patronen herkennen die u mist.
+                </p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">🚀 <strong>Foutloze Communicatie:</strong> Elk mailtje perfect.</li>
+                    <li style="margin-bottom: 10px;">🚀 <strong>Data Analyse:</strong> Van Excel-sheet naar strategie in 1 minuut.</li>
+                    <li style="margin-bottom: 10px;">🚀 <strong>Innovatie:</strong> Brainstormen met een supercomputer.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="contact" class="container" style="margin-bottom: 80px;">
+        <div class="glass" style="max-width: 800px; margin: 0 auto; padding: 50px; text-align: center; border: 1px solid #a5f3fc;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Klaar om te schalen?</h2>
+            <p style="margin-bottom: 40px; font-size: 1.1rem; opacity: 0.9;">
+                Onze trainers (MBA/MSc niveau) komen naar u toe. <br>Vul het formulier in voor een strategiegesprek op maat.
+            </p>
+
+            <form id="training-form" action="https://formspree.io/f/mkgaybgn" method="POST" style="text-align: left; display: grid; gap: 20px;">
+                <input type="text" name="_gotcha" style="display:none">
+                <input type="hidden" name="_subject" value="Aanvraag via Leadership Landingspagina">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem;">Uw Naam</label>
+                        <input type="text" name="name" required style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem;">Zakelijk E-mailadres</label>
+                        <input type="email" name="email" required style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+                    </div>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem;">Waar kunnen we uw team mee helpen?</label>
+                    <textarea name="message" rows="4" placeholder="Bijv. wij willen efficiënter werken met marketing..." required style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-family: inherit;"></textarea>
+                </div>
+
+                <button id="form-btn" type="submit" class="cta-button" style="width: 100%; padding: 18px; font-size: 1.2rem; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                    Vraag Training Aan
+                </button>
+                <p id="form-status" style="text-align: center; margin-top: 10px; font-weight: bold; min-height: 20px;"></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var form = document.getElementById("training-form");
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("form-status");
+            var btn = document.getElementById("form-btn");
+            var data = new FormData(event.target);
+            var originalBtnText = btn.innerHTML;
+            
+            btn.innerHTML = "Versturen...";
+            btn.style.opacity = "0.7";
+            
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Bedankt! We hebben uw aanvraag ontvangen.";
+                    status.style.color = "#4ade80";
+                    form.reset();
+                    btn.innerHTML = "Verzonden";
+                } else {
+                    status.innerHTML = "Er ging iets mis. Probeer het later opnieuw.";
+                    status.style.color = "#ef4444";
+                    btn.innerHTML = originalBtnText;
+                }
+                btn.style.opacity = "1";
+            }).catch(error => {
+                status.innerHTML = "Er ging iets mis bij het verzenden.";
+                status.style.color = "#ef4444";
+                btn.innerHTML = originalBtnText;
+                btn.style.opacity = "1";
+            });
+        }
+        form.addEventListener("submit", handleSubmit);
+    </script>
+
+    <footer class="glass" style="margin-top: auto; border-radius: 0; border-left: 0; border-right: 0; border-bottom: 0;">
+        <div class="container" style="text-align: center; padding: 30px; font-size: 0.9rem; color: rgba(255,255,255,0.6);">
+            <p>© 2026 GPT Bedrijfstraining | Onderdeel van <a href="https://aipersoneelstraining.nl" style="color: white; text-decoration: underline;">AI Personeelstraining</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
